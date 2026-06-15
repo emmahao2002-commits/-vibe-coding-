@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>帮助文档任务管理</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F8FA;
+    --surface: #FFFFFF;
+    --border: #E4E7ED;
+    --text-primary: #1A1D23;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --accent: #4F6EF7;
+    --accent-light: #EEF1FE;
+    --red: #EF4444;
+    --red-light: #FEF2F2;
+    --orange: #F97316;
+    --orange-light: #FFF7ED;
+    --green: #22C55E;
+    --green-light: #F0FDF4;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Layout */
+  .app-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .app-header .logo {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .app-header .logo span {
+    color: var(--accent);
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .header-stats strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-body { padding: 20px; }
+
+  /* Form */
+  .form-group { margin-bottom: 14px; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  label .required { color: var(--red); margin-left: 2px; }
+  label .optional { color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+  input[type="text"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--surface);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79,110,247,0.1);
+  }
+
+  textarea { resize: vertical; min-height: 72px; }
+
+  .radio-group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .radio-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .radio-option input { display: none; }
+
+  .radio-option:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    width: 100%;
+  }
+
+  .btn-primary:hover { background: #3D5CE6; }
+
+  .btn-secondary {
+    background: var(--bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    padding: 7px 12px;
+  }
+
+  .btn-secondary:hover { background: var(--border); }
+
+  .btn-danger {
+    background: transparent;
+    color: var(--red);
+    border: 1px solid #FECACA;
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .btn-danger:hover { background: var(--red-light); }
+
+  .btn-push {
+    background: var(--bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .btn-push:hover { background: var(--border); }
+
+  /* Webhook section */
+  .webhook-section { margin-bottom: 20px; }
+
+  .webhook-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .webhook-row input { flex: 1; }
+
+  .push-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .push-status {
+    margin-top: 8px;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: none;
+  }
+
+  .push-status.success { background: var(--green-light); color: #15803D; display: block; }
+  .push-status.error { background: var(--red-light); color: #DC2626; display: block; }
+
+  /* Table */
+  .table-section { overflow: hidden; }
+
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .table-toolbar input {
+    width: 220px;
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .filter-select {
+    padding: 7px 12px;
+    font-size: 13px;
+    width: auto;
+  }
+
+  .table-wrap { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    background: var(--bg);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr.overdue td { background: #FFF5F5; }
+  tr.completed td { color: var(--text-muted); }
+  tr.completed .task-name { text-decoration: line-through; }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge-high { background: #FEE2E2; color: #DC2626; }
+  .badge-medium { background: #FED7AA; color: #C2410C; }
+  .badge-low { background: #DCFCE7; color: #15803D; }
+
+  .status-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .status-pending { background: #FEF3C7; color: #92400E; }
+  .status-pending:hover { background: #FDE68A; }
+  .status-done { background: var(--green-light); color: #15803D; }
+  .status-done:hover { background: #BBFBD0; }
+
+  .link-cell a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 12px;
+  }
+
+  .link-cell a:hover { text-decoration: underline; }
+
+  .overdue-flag {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-muted);
+  }
+
+  .empty-state .icon { font-size: 32px; margin-bottom: 10px; }
+  .empty-state p { font-size: 14px; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    padding: 12px 18px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.25s;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { background: #1A1D23; color: white; }
+  .toast.error { background: var(--red); color: white; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; padding: 16px; }
+    .push-buttons { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="logo">📄 <span>DocTrack</span> · 帮助文档任务管理</div>
+  <div class="header-stats">
+    <span>未完成 <strong id="stat-pending">0</strong></span>
+    <span>今日到期 <strong id="stat-today">0</strong></span>
+    <span>总任务 <strong id="stat-total">0</strong></span>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- Left Column -->
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <!-- Add Task Form -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">✏️ 新增任务</span>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>功能名称 <span class="required">*</span></label>
+          <input type="text" id="f-name" placeholder="如：退款申请帮助文档">
+        </div>
+        <div class="form-group">
+          <label>功能模块 <span class="required">*</span></label>
+          <input type="text" id="f-module" placeholder="如：订单管理、库存模块">
+        </div>
+        <div class="form-group">
+          <label>优先级 <span class="required">*</span></label>
+          <select id="f-priority">
+            <option value="">请选择</option>
+            <option value="high">🔴 高</option>
+            <option value="medium">🟠 中</option>
+            <option value="low">🟢 低</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>截止日期 <span class="required">*</span></label>
+          <input type="date" id="f-due">
+        </div>
+        <div class="form-group">
+          <label>测试环境链接 <span class="optional">（选填）</span></label>
+          <input type="text" id="f-testlink" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>原型文档链接 <span class="optional">（选填）</span></label>
+          <input type="text" id="f-protolink" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>是否需要培训</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="training" value="yes"> 是
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="training" value="no" checked> 否
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>备注说明 <span class="optional">（选填）</span></label>
+          <textarea id="f-note" placeholder="补充说明..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="addTask()">＋ 添加任务</button>
+      </div>
+    </div>
+
+    <!-- Webhook Settings -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🤖 企微机器人推送</span>
+      </div>
+      <div class="card-body">
+        <div class="webhook-section">
+          <label>Webhook 地址</label>
+          <div class="webhook-row">
+            <input type="text" id="webhook-url" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=...">
+            <button class="btn btn-secondary" onclick="saveWebhook()">保存</button>
+          </div>
+        </div>
+        <div class="push-buttons">
+          <button class="btn btn-push" onclick="pushToday()">📋 今日任务</button>
+          <button class="btn btn-push" onclick="pushTomorrow()">⚠️ 明日到期</button>
+          <button class="btn btn-push" onclick="pushAll()">📊 全部未完成</button>
+        </div>
+        <div class="push-status" id="push-status"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right Column: Table -->
+  <div class="card table-section">
+    <div class="card-header">
+      <span class="card-title">📋 任务列表</span>
+      <button class="btn btn-secondary" onclick="exportCSV()">↓ 导出 CSV</button>
+    </div>
+    <div class="table-toolbar">
+      <input type="text" placeholder="搜索任务..." oninput="renderTable()" id="search-input">
+      <select class="filter-select" id="filter-priority" onchange="renderTable()">
+        <option value="">全部优先级</option>
+        <option value="high">高</option>
+        <option value="medium">中</option>
+        <option value="low">低</option>
+      </select>
+      <select class="filter-select" id="filter-status" onchange="renderTable()">
+        <option value="">全部状态</option>
+        <option value="pending">未完成</option>
+        <option value="done">已完成</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>功能名称</th>
+            <th>功能模块</th>
+            <th>优先级</th>
+            <th>截止日期</th>
+            <th>测试环境</th>
+            <th>原型文档</th>
+            <th>培训</th>
+            <th>备注</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="task-tbody"></tbody>
+      </table>
+      <div class="empty-state" id="empty-state" style="display:none;">
+        <div class="icon">📭</div>
+        <p>暂无任务，从左侧表单添加第一条吧</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  let tasks = JSON.parse(localStorage.getItem('docTasks') || '[]');
+
+  const priorityMap = {
+    high: { label: '高', class: 'badge-high' },
+    medium: { label: '中', class: 'badge-medium' },
+    low: { label: '低', class: 'badge-low' }
+  };
+
+  function save() {
+    localStorage.setItem('docTasks', JSON.stringify(tasks));
+    renderTable();
+    updateStats();
+  }
+
+  function today() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  function tomorrow() {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.toISOString().split('T')[0];
+  }
+
+  function addTask() {
+    const name = document.getElementById('f-name').value.trim();
+    const module = document.getElementById('f-module').value.trim();
+    const priority = document.getElementById('f-priority').value;
+    const due = document.getElementById('f-due').value;
+
+    if (!name || !module || !priority || !due) {
+      showToast('请填写必填字段（功能名称、功能模块、优先级、截止日期）', 'error');
+      return;
+    }
+
+    const training = document.querySelector('input[name="training"]:checked')?.value || 'no';
+
+    tasks.unshift({
+      id: Date.now(),
+      name,
+      module,
+      priority,
+      due,
+      testLink: document.getElementById('f-testlink').value.trim(),
+      protoLink: document.getElementById('f-protolink').value.trim(),
+      training,
+      note: document.getElementById('f-note').value.trim(),
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    });
+
+    // Reset form
+    ['f-name','f-module','f-testlink','f-protolink','f-note'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f-priority').value = '';
+    document.getElementById('f-due').value = '';
+    document.querySelector('input[name="training"][value="no"]').checked = true;
+
+    save();
+    showToast('✅ 任务已添加');
+  }
+
+  function toggleStatus(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      task.status = task.status === 'pending' ? 'done' : 'pending';
+      save();
+    }
+  }
+
+  function deleteTask(id) {
+    if (!confirm('确认删除这条任务吗？')) return;
+    tasks = tasks.filter(t => t.id !== id);
+    save();
+  }
+
+  function renderTable() {
+    const search = document.getElementById('search-input').value.toLowerCase();
+    const filterP = document.getElementById('filter-priority').value;
+    const filterS = document.getElementById('filter-status').value;
+
+    let filtered = tasks.filter(t => {
+      const matchSearch = !search || t.name.toLowerCase().includes(search) || t.module.toLowerCase().includes(search);
+      const matchP = !filterP || t.priority === filterP;
+      const matchS = !filterS || t.status === filterS;
+      return matchSearch && matchP && matchS;
+    });
+
+    const tbody = document.getElementById('task-tbody');
+    const empty = document.getElementById('empty-state');
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+
+    empty.style.display = 'none';
+    const tod = today();
+    const tom = tomorrow();
+
+    tbody.innerHTML = filtered.map(t => {
+      const isOverdue = t.status === 'pending' && t.due <= tod;
+      const isTomorrow = t.status === 'pending' && t.due === tom;
+      const rowClass = t.status === 'done' ? 'completed' : (isOverdue ? 'overdue' : '');
+      const p = priorityMap[t.priority] || { label: t.priority, class: '' };
+
+      let dateLabel = t.due;
+      if (t.due === tod && t.status === 'pending') dateLabel = `<span class="overdue-flag"></span>${t.due} 今天`;
+      else if (isTomorrow) dateLabel = `${t.due} 明天`;
+
+      return `<tr class="${rowClass}">
+        <td class="task-name" style="max-width:180px;word-break:break-all;">${t.name}</td>
+        <td>${t.module}</td>
+        <td><span class="badge ${p.class}">${p.label}</span></td>
+        <td style="white-space:nowrap;">${dateLabel}</td>
+        <td class="link-cell">${t.testLink ? `<a href="${t.testLink}" target="_blank">打开</a>` : '<span style="color:var(--text-muted)">—</span>'}</td>
+        <td class="link-cell">${t.protoLink ? `<a href="${t.protoLink}" target="_blank">打开</a>` : '<span style="color:var(--text-muted)">—</span>'}</td>
+        <td>${t.training === 'yes' ? '✅' : '—'}</td>
+        <td style="max-width:150px;word-break:break-all;color:var(--text-secondary);">${t.note || '—'}</td>
+        <td>
+          <button class="status-btn ${t.status === 'done' ? 'status-done' : 'status-pending'}"
+            onclick="toggleStatus(${t.id})">
+            ${t.status === 'done' ? '✓ 已完成' : '○ 未完成'}
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-danger" onclick="deleteTask(${t.id})">删除</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function updateStats() {
+    const tod = today();
+    const pending = tasks.filter(t => t.status === 'pending').length;
+    const todayDue = tasks.filter(t => t.status === 'pending' && t.due === tod).length;
+    document.getElementById('stat-pending').textContent = pending;
+    document.getElementById('stat-today').textContent = todayDue;
+    document.getElementById('stat-total').textContent = tasks.length;
+  }
+
+  // Webhook
+  function saveWebhook() {
+    const url = document.getElementById('webhook-url').value.trim();
+    if (!url) { showToast('请输入 Webhook 地址', 'error'); return; }
+    localStorage.setItem('webhookUrl', url);
+    showToast('✅ Webhook 地址已保存');
+  }
+
+  function getWebhook() {
+    return localStorage.getItem('webhookUrl') || '';
+  }
+
+  async function sendWxMsg(content) {
+    const url = getWebhook();
+    if (!url) {
+      showPushStatus('❌ 请先填写并保存 Webhook 地址', 'error');
+      return;
+    }
+    const body = { msgtype: 'markdown', markdown: { content } };
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        mode: 'no-cors'
+      });
+      showPushStatus('✅ 发送成功（请查看企微群）', 'success');
+    } catch (e) {
+      showPushStatus('❌ 发送失败，请检查 Webhook 地址', 'error');
+    }
+  }
+
+  function formatTaskLine(t) {
+    const p = priorityMap[t.priority]?.label || t.priority;
+    return `> **${t.name}** ｜ ${t.module} ｜ 优先级：${p} ｜ 截止：${t.due}`;
+  }
+
+  function pushToday() {
+    const tod = today();
+    const list = tasks.filter(t => t.status === 'pending' && t.due === tod);
+    if (!list.length) { showPushStatus('暂无今日到期任务', 'success'); return; }
+    const content = `## 📋 今日待完成文档任务\n共 **${list.length}** 条\n\n` + list.map(formatTaskLine).join('\n');
+    sendWxMsg(content);
+  }
+
+  function pushTomorrow() {
+    const tom = tomorrow();
+    const list = tasks.filter(t => t.status === 'pending' && t.due === tom);
+    if (!list.length) { showPushStatus('暂无明日到期任务', 'success'); return; }
+    const content = `## ⚠️ 明日到期提醒\n共 **${list.length}** 条，请注意及时完成\n\n` + list.map(formatTaskLine).join('\n');
+    sendWxMsg(content);
+  }
+
+  function pushAll() {
+    const list = tasks.filter(t => t.status === 'pending');
+    if (!list.length) { showPushStatus('🎉 所有任务已完成！', 'success'); return; }
+    const content = `## 📊 全部未完成任务汇总\n共 **${list.length}** 条\n\n` + list.map(formatTaskLine).join('\n');
+    sendWxMsg(content);
+  }
+
+  function showPushStatus(msg, type) {
+    const el = document.getElementById('push-status');
+    el.textContent = msg;
+    el.className = `push-status ${type}`;
+    setTimeout(() => { el.className = 'push-status'; }, 4000);
+  }
+
+  // Export CSV
+  function exportCSV() {
+    if (!tasks.length) { showToast('暂无数据可导出', 'error'); return; }
+    const headers = ['功能名称','功能模块','优先级','截止日期','测试环境','原型文档','是否培训','备注','状态'];
+    const rows = tasks.map(t => [
+      t.name, t.module,
+      priorityMap[t.priority]?.label || t.priority,
+      t.due, t.testLink, t.protoLink,
+      t.training === 'yes' ? '是' : '否',
+      t.note,
+      t.status === 'done' ? '已完成' : '未完成'
+    ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
+    const csv = '\uFEFF' + [headers.join(','), ...rows].join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `文档任务_${today()}.csv`;
+    a.click();
+  }
+
+  // Toast
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  // Browser notifications
+  function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }
+
+  function sendNotification(title, body) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(title, { body, icon: '📄' });
+    }
+  }
+
+  function checkDailyNotifications() {
+    const tod = today();
+    const lastNotified = localStorage.getItem('lastNotified');
+    if (lastNotified === tod) return;
+
+    localStorage.setItem('lastNotified', tod);
+
+    const todayTasks = tasks.filter(t => t.status === 'pending' && t.due === tod);
+    const tomorrowTasks = tasks.filter(t => t.status === 'pending' && t.due === tomorrow());
+
+    setTimeout(() => {
+      if (todayTasks.length > 0) {
+        sendNotification(
+          `📋 今日待完成文档任务（${todayTasks.length} 条）`,
+          todayTasks.map(t => t.name).join('、')
+        );
+      }
+      if (tomorrowTasks.length > 0) {
+        setTimeout(() => {
+          sendNotification(
+            `⚠️ 明日到期提醒（${tomorrowTasks.length} 条）`,
+            tomorrowTasks.map(t => t.name).join('、')
+          );
+        }, 2000);
+      }
+    }, 1500);
+  }
+
+  // Init
+  const savedWebhook = getWebhook();
+  if (savedWebhook) document.getElementById('webhook-url').value = savedWebhook;
+
+  requestNotificationPermission();
+  renderTable();
+  updateStats();
+  checkDailyNotifications();
+</script>
+</body>
+</html>
