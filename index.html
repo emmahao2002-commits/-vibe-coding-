@@ -3,411 +3,155 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>帮助文档任务管理</title>
+<title>DocTrack · 帮助文档任务管理</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F7F8FA; --surface: #FFFFFF; --border: #E4E7ED;
+  --text-primary: #1A1D23; --text-secondary: #6B7280; --text-muted: #9CA3AF;
+  --accent: #4F6EF7; --accent-light: #EEF1FE;
+  --red: #EF4444; --red-light: #FEF2F2;
+  --orange: #F97316; --orange-light: #FFF7ED;
+  --green: #22C55E; --green-light: #F0FDF4;
+  --radius: 10px; --shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; font-size: 14px; line-height: 1.5; }
 
-  :root {
-    --bg: #F7F8FA;
-    --surface: #FFFFFF;
-    --border: #E4E7ED;
-    --text-primary: #1A1D23;
-    --text-secondary: #6B7280;
-    --text-muted: #9CA3AF;
-    --accent: #4F6EF7;
-    --accent-light: #EEF1FE;
-    --red: #EF4444;
-    --red-light: #FEF2F2;
-    --orange: #F97316;
-    --orange-light: #FFF7ED;
-    --green: #22C55E;
-    --green-light: #F0FDF4;
-    --radius: 10px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  }
+/* Header */
+.app-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 54px; position: sticky; top: 0; z-index: 200; }
+.logo { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.logo span { color: var(--accent); }
+.header-stats { display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary); }
+.header-stats strong { color: var(--text-primary); font-weight: 600; }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    min-height: 100vh;
-    font-size: 14px;
-    line-height: 1.5;
-  }
+/* Layout */
+.main { max-width: 1360px; margin: 0 auto; padding: 20px 28px; display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start; }
 
-  /* Layout */
-  .app-header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+/* Stats Bar */
+.stats-bar { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
+.stat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.stat-icon.blue { background: var(--accent-light); }
+.stat-icon.red { background: var(--red-light); }
+.stat-icon.orange { background: var(--orange-light); }
+.stat-icon.green { background: var(--green-light); }
+.stat-icon.purple { background: #F3F0FF; }
+.stat-info p { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+.stat-info strong { font-size: 22px; font-weight: 700; color: var(--text-primary); line-height: 1; }
 
-  .app-header .logo {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+/* Progress bar */
+.progress-section { grid-column: 1 / -1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); }
+.progress-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.progress-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.progress-pct { font-size: 13px; font-weight: 700; color: var(--accent); }
+.progress-track { background: var(--bg); border-radius: 20px; height: 8px; overflow: hidden; margin-bottom: 12px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #7C9BFA); border-radius: 20px; transition: width 0.4s ease; }
+.priority-bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pbar { }
+.pbar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.pbar-track { background: var(--bg); border-radius: 20px; height: 5px; overflow: hidden; }
+.pbar-fill { height: 100%; border-radius: 20px; }
+.pbar-fill.high { background: var(--red); }
+.pbar-fill.medium { background: var(--orange); }
+.pbar-fill.low { background: var(--green); }
 
-  .app-header .logo span {
-    color: var(--accent);
-  }
+/* Card */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.card-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.card-body { padding: 18px; }
 
-  .header-stats {
-    display: flex;
-    gap: 20px;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
+/* Form */
+.form-group { margin-bottom: 13px; }
+label { display: block; font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+label .req { color: var(--red); }
+label .opt { color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+input[type="text"], input[type="date"], input[type="time"], select, textarea { width: 100%; padding: 7px 11px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: inherit; color: var(--text-primary); background: var(--surface); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,0.1); }
+textarea { resize: vertical; min-height: 64px; }
+.radio-group { display: flex; gap: 6px; }
+.radio-opt { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px; border: 1px solid var(--border); border-radius: 7px; cursor: pointer; font-size: 13px; color: var(--text-secondary); transition: all 0.15s; user-select: none; }
+.radio-opt input { display: none; }
+.radio-opt:has(input:checked) { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 500; }
 
-  .header-stats strong {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: inherit; }
+.btn-primary { background: var(--accent); color: white; width: 100%; }
+.btn-primary:hover { background: #3D5CE6; }
+.btn-sm { padding: 4px 10px; font-size: 12px; border-radius: 6px; }
+.btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--bg); }
+.btn-edit { background: var(--accent-light); color: var(--accent); border: none; }
+.btn-edit:hover { background: #DDE5FD; }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid #FECACA; }
+.btn-danger:hover { background: var(--red-light); }
+.btn-push { background: var(--bg); color: var(--text-primary); border: 1px solid var(--border); flex: 1; font-size: 12px; }
+.btn-push:hover { background: var(--border); }
 
-  .main {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 24px 32px;
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 20px;
-    align-items: start;
-  }
+/* Webhook */
+.webhook-row { display: flex; gap: 7px; margin-bottom: 10px; }
+.webhook-row input { flex: 1; }
+.push-buttons { display: flex; gap: 6px; }
+.push-status { margin-top: 8px; font-size: 12px; padding: 5px 10px; border-radius: 6px; display: none; }
+.push-status.success { background: var(--green-light); color: #15803D; display: block; }
+.push-status.error { background: var(--red-light); color: #DC2626; display: block; }
 
-  /* Cards */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
+/* Reminder */
+.reminder-row { display: flex; gap: 7px; align-items: flex-end; }
+.reminder-row .form-group { flex: 1; margin-bottom: 0; }
 
-  .card-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+/* Table */
+.table-toolbar { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.table-toolbar input { width: 180px; padding: 6px 11px; font-size: 13px; }
+.filter-sel { padding: 6px 10px; font-size: 12px; width: auto; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { background: var(--bg); padding: 9px 12px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text-primary); }
+tr:last-child td { border-bottom: none; }
+tr.overdue td { background: #FFF5F5; }
+tr.completed td { color: var(--text-muted); }
+tr.completed .tname { text-decoration: line-through; }
+.badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.badge-high { background: #FEE2E2; color: #DC2626; }
+.badge-medium { background: #FED7AA; color: #C2410C; }
+.badge-low { background: #DCFCE7; color: #15803D; }
+.status-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer; border: none; font-family: inherit; transition: all 0.15s; }
+.status-pending { background: #FEF3C7; color: #92400E; }
+.status-pending:hover { background: #FDE68A; }
+.status-done { background: var(--green-light); color: #15803D; }
+.status-done:hover { background: #BBFBD0; }
+.link-a { color: var(--accent); text-decoration: none; font-size: 11px; }
+.link-a:hover { text-decoration: underline; }
+.overdue-dot { display: inline-block; width: 5px; height: 5px; background: var(--red); border-radius: 50%; margin-right: 3px; vertical-align: middle; }
+.ops { display: flex; gap: 4px; }
+.empty-state { text-align: center; padding: 44px 20px; color: var(--text-muted); }
+.empty-state .eicon { font-size: 30px; margin-bottom: 8px; }
 
-  .card-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 500; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal { background: var(--surface); border-radius: 14px; width: 520px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); transform: translateY(12px); transition: transform 0.2s; }
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--surface); z-index: 1; }
+.modal-title { font-size: 15px; font-weight: 600; }
+.modal-close { background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0 4px; }
+.modal-close:hover { color: var(--text-primary); }
+.modal-body { padding: 20px 22px; }
+.modal-footer { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+.modal-footer .btn { width: auto; }
 
-  .card-body { padding: 20px; }
+/* Toast */
+.toast { position: fixed; bottom: 22px; right: 22px; padding: 11px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 500; box-shadow: 0 4px 14px rgba(0,0,0,0.15); z-index: 999; transform: translateY(80px); opacity: 0; transition: all 0.25s; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: #1A1D23; color: white; }
+.toast.error { background: var(--red); color: white; }
 
-  /* Form */
-  .form-group { margin-bottom: 14px; }
-
-  label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  label .required { color: var(--red); margin-left: 2px; }
-  label .optional { color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
-
-  input[type="text"],
-  input[type="date"],
-  select,
-  textarea {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    font-size: 14px;
-    font-family: inherit;
-    color: var(--text-primary);
-    background: var(--surface);
-    transition: border-color 0.15s, box-shadow 0.15s;
-    outline: none;
-  }
-
-  input[type="text"]:focus,
-  input[type="date"]:focus,
-  select:focus,
-  textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(79,110,247,0.1);
-  }
-
-  textarea { resize: vertical; min-height: 72px; }
-
-  .radio-group {
-    display: flex;
-    gap: 8px;
-  }
-
-  .radio-option {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--text-secondary);
-    transition: all 0.15s;
-    user-select: none;
-  }
-
-  .radio-option input { display: none; }
-
-  .radio-option:has(input:checked) {
-    border-color: var(--accent);
-    background: var(--accent-light);
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 9px 16px;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    transition: all 0.15s;
-    font-family: inherit;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-    width: 100%;
-  }
-
-  .btn-primary:hover { background: #3D5CE6; }
-
-  .btn-secondary {
-    background: var(--bg);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    font-size: 13px;
-    padding: 7px 12px;
-  }
-
-  .btn-secondary:hover { background: var(--border); }
-
-  .btn-danger {
-    background: transparent;
-    color: var(--red);
-    border: 1px solid #FECACA;
-    font-size: 12px;
-    padding: 4px 8px;
-  }
-
-  .btn-danger:hover { background: var(--red-light); }
-
-  .btn-push {
-    background: var(--bg);
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-    font-size: 13px;
-    flex: 1;
-  }
-
-  .btn-push:hover { background: var(--border); }
-
-  /* Webhook section */
-  .webhook-section { margin-bottom: 20px; }
-
-  .webhook-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
-  .webhook-row input { flex: 1; }
-
-  .push-buttons {
-    display: flex;
-    gap: 8px;
-  }
-
-  .push-status {
-    margin-top: 8px;
-    font-size: 13px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display: none;
-  }
-
-  .push-status.success { background: var(--green-light); color: #15803D; display: block; }
-  .push-status.error { background: var(--red-light); color: #DC2626; display: block; }
-
-  /* Table */
-  .table-section { overflow: hidden; }
-
-  .table-toolbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .table-toolbar input {
-    width: 220px;
-    padding: 7px 12px;
-    font-size: 13px;
-  }
-
-  .filter-select {
-    padding: 7px 12px;
-    font-size: 13px;
-    width: auto;
-  }
-
-  .table-wrap { overflow-x: auto; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-
-  th {
-    background: var(--bg);
-    padding: 10px 14px;
-    text-align: left;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-  }
-
-  td {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-primary);
-    vertical-align: middle;
-  }
-
-  tr:last-child td { border-bottom: none; }
-
-  tr.overdue td { background: #FFF5F5; }
-  tr.completed td { color: var(--text-muted); }
-  tr.completed .task-name { text-decoration: line-through; }
-
-  /* Badges */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  .badge-high { background: #FEE2E2; color: #DC2626; }
-  .badge-medium { background: #FED7AA; color: #C2410C; }
-  .badge-low { background: #DCFCE7; color: #15803D; }
-
-  .status-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-    transition: all 0.15s;
-  }
-
-  .status-pending { background: #FEF3C7; color: #92400E; }
-  .status-pending:hover { background: #FDE68A; }
-  .status-done { background: var(--green-light); color: #15803D; }
-  .status-done:hover { background: #BBFBD0; }
-
-  .link-cell a {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 12px;
-  }
-
-  .link-cell a:hover { text-decoration: underline; }
-
-  .overdue-flag {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--red);
-    border-radius: 50%;
-    margin-right: 4px;
-    vertical-align: middle;
-  }
-
-  /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 48px 20px;
-    color: var(--text-muted);
-  }
-
-  .empty-state .icon { font-size: 32px; margin-bottom: 10px; }
-  .empty-state p { font-size: 14px; }
-
-  /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    padding: 12px 18px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 999;
-    transform: translateY(80px);
-    opacity: 0;
-    transition: all 0.25s;
-  }
-
-  .toast.show { transform: translateY(0); opacity: 1; }
-  .toast.success { background: #1A1D23; color: white; }
-  .toast.error { background: var(--red); color: white; }
-
-  /* Responsive */
-  @media (max-width: 900px) {
-    .main { grid-template-columns: 1fr; padding: 16px; }
-    .push-buttons { flex-direction: column; }
-  }
+@media (max-width: 960px) {
+  .main { grid-template-columns: 1fr; padding: 14px; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .push-buttons { flex-wrap: wrap; }
+}
 </style>
 </head>
 <body>
@@ -415,33 +159,79 @@
 <header class="app-header">
   <div class="logo">📄 <span>DocTrack</span> · 帮助文档任务管理</div>
   <div class="header-stats">
-    <span>未完成 <strong id="stat-pending">0</strong></span>
-    <span>今日到期 <strong id="stat-today">0</strong></span>
-    <span>总任务 <strong id="stat-total">0</strong></span>
+    <span>未完成 <strong id="s-pending">0</strong></span>
+    <span>今日到期 <strong id="s-today">0</strong></span>
+    <span>已逾期 <strong id="s-overdue" style="color:var(--red)">0</strong></span>
+    <span>总计 <strong id="s-total">0</strong></span>
   </div>
 </header>
 
 <div class="main">
 
-  <!-- Left Column -->
-  <div style="display:flex;flex-direction:column;gap:16px;">
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon blue">📋</div>
+      <div class="stat-info"><p>总任务</p><strong id="sc-total">0</strong></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange">⏳</div>
+      <div class="stat-info"><p>未完成</p><strong id="sc-pending">0</strong></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">✅</div>
+      <div class="stat-info"><p>已完成</p><strong id="sc-done">0</strong></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon red">🔥</div>
+      <div class="stat-info"><p>高优先级</p><strong id="sc-high">0</strong></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">📅</div>
+      <div class="stat-info"><p>今日到期</p><strong id="sc-today">0</strong></div>
+    </div>
+  </div>
 
-    <!-- Add Task Form -->
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">✏️ 新增任务</span>
+  <!-- Progress -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-title">整体完成进度</span>
+      <span class="progress-pct" id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="priority-bars">
+      <div class="pbar">
+        <div class="pbar-label"><span>🔴 高优先级</span><span id="pb-high-txt">0/0</span></div>
+        <div class="pbar-track"><div class="pbar-fill high" id="pb-high" style="width:0%"></div></div>
       </div>
+      <div class="pbar">
+        <div class="pbar-label"><span>🟠 中优先级</span><span id="pb-med-txt">0/0</span></div>
+        <div class="pbar-track"><div class="pbar-fill medium" id="pb-med" style="width:0%"></div></div>
+      </div>
+      <div class="pbar">
+        <div class="pbar-label"><span>🟢 低优先级</span><span id="pb-low-txt">0/0</span></div>
+        <div class="pbar-track"><div class="pbar-fill low" id="pb-low" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Left Column -->
+  <div style="display:flex;flex-direction:column;gap:14px;">
+
+    <!-- Add Form -->
+    <div class="card">
+      <div class="card-header"><span class="card-title">✏️ 新增任务</span></div>
       <div class="card-body">
         <div class="form-group">
-          <label>功能名称 <span class="required">*</span></label>
+          <label>功能名称 <span class="req">*</span></label>
           <input type="text" id="f-name" placeholder="如：退款申请帮助文档">
         </div>
         <div class="form-group">
-          <label>功能模块 <span class="required">*</span></label>
+          <label>功能模块 <span class="req">*</span></label>
           <input type="text" id="f-module" placeholder="如：订单管理、库存模块">
         </div>
         <div class="form-group">
-          <label>优先级 <span class="required">*</span></label>
+          <label>优先级 <span class="req">*</span></label>
           <select id="f-priority">
             <option value="">请选择</option>
             <option value="high">🔴 高</option>
@@ -450,100 +240,109 @@
           </select>
         </div>
         <div class="form-group">
-          <label>截止日期 <span class="required">*</span></label>
+          <label>截止日期 <span class="req">*</span></label>
           <input type="date" id="f-due">
         </div>
         <div class="form-group">
-          <label>测试环境链接 <span class="optional">（选填）</span></label>
+          <label>测试环境链接 <span class="opt">（选填）</span></label>
           <input type="text" id="f-testlink" placeholder="https://...">
         </div>
         <div class="form-group">
-          <label>原型文档链接 <span class="optional">（选填）</span></label>
+          <label>原型文档链接 <span class="opt">（选填）</span></label>
           <input type="text" id="f-protolink" placeholder="https://...">
         </div>
         <div class="form-group">
           <label>是否需要培训</label>
           <div class="radio-group">
-            <label class="radio-option">
-              <input type="radio" name="training" value="yes"> 是
-            </label>
-            <label class="radio-option">
-              <input type="radio" name="training" value="no" checked> 否
-            </label>
+            <label class="radio-opt"><input type="radio" name="training" value="yes"> 是</label>
+            <label class="radio-opt"><input type="radio" name="training" value="no" checked> 否</label>
           </div>
         </div>
         <div class="form-group">
-          <label>备注说明 <span class="optional">（选填）</span></label>
+          <label>备注说明 <span class="opt">（选填）</span></label>
           <textarea id="f-note" placeholder="补充说明..."></textarea>
         </div>
         <button class="btn btn-primary" onclick="addTask()">＋ 添加任务</button>
       </div>
     </div>
 
-    <!-- Webhook Settings -->
+    <!-- Webhook -->
     <div class="card">
-      <div class="card-header">
-        <span class="card-title">🤖 企微机器人推送</span>
-      </div>
+      <div class="card-header"><span class="card-title">🤖 企微机器人推送</span></div>
       <div class="card-body">
-        <div class="webhook-section">
+        <div class="form-group">
           <label>Webhook 地址</label>
           <div class="webhook-row">
-            <input type="text" id="webhook-url" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=...">
-            <button class="btn btn-secondary" onclick="saveWebhook()">保存</button>
+            <input type="text" id="webhook-url" placeholder="https://qyapi.weixin.qq.com/...">
+            <button class="btn btn-ghost" onclick="saveWebhook()">保存</button>
           </div>
         </div>
         <div class="push-buttons">
-          <button class="btn btn-push" onclick="pushToday()">📋 今日任务</button>
-          <button class="btn btn-push" onclick="pushTomorrow()">⚠️ 明日到期</button>
-          <button class="btn btn-push" onclick="pushAll()">📊 全部未完成</button>
+          <button class="btn btn-push" onclick="pushToday()">📋 今日</button>
+          <button class="btn btn-push" onclick="pushTomorrow()">⚠️ 明日</button>
+          <button class="btn btn-push" onclick="pushAll()">📊 全部</button>
         </div>
         <div class="push-status" id="push-status"></div>
       </div>
     </div>
 
+    <!-- Reminder Time -->
+    <div class="card">
+      <div class="card-header"><span class="card-title">⏰ 每日提醒设置</span></div>
+      <div class="card-body">
+        <div class="form-group" style="margin-bottom:10px;">
+          <label>提醒时间（每天打开页面后触发）</label>
+          <div class="reminder-row">
+            <div class="form-group">
+              <input type="time" id="reminder-time" value="09:00">
+            </div>
+            <button class="btn btn-ghost btn-sm" style="margin-bottom:0;height:34px;" onclick="saveReminderTime()">保存</button>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">设置后，每天在此时间首次打开页面会触发浏览器桌面通知，提醒你当天及明天到期的任务。</p>
+        <div style="margin-top:10px;">
+          <button class="btn btn-ghost btn-sm" onclick="testNotification()">🔔 测试通知</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Right Column: Table -->
-  <div class="card table-section">
+  <!-- Right: Table -->
+  <div class="card" style="overflow:hidden;">
     <div class="card-header">
       <span class="card-title">📋 任务列表</span>
-      <button class="btn btn-secondary" onclick="exportCSV()">↓ 导出 CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ 导出 CSV</button>
     </div>
     <div class="table-toolbar">
-      <input type="text" placeholder="搜索任务..." oninput="renderTable()" id="search-input">
-      <select class="filter-select" id="filter-priority" onchange="renderTable()">
+      <input type="text" placeholder="搜索任务名称/模块..." oninput="renderTable()" id="search-input">
+      <select class="filter-sel" id="filter-priority" onchange="renderTable()">
         <option value="">全部优先级</option>
         <option value="high">高</option>
         <option value="medium">中</option>
         <option value="low">低</option>
       </select>
-      <select class="filter-select" id="filter-status" onchange="renderTable()">
+      <select class="filter-sel" id="filter-status" onchange="renderTable()">
         <option value="">全部状态</option>
         <option value="pending">未完成</option>
         <option value="done">已完成</option>
+      </select>
+      <select class="filter-sel" id="filter-module" onchange="renderTable()">
+        <option value="">全部模块</option>
       </select>
     </div>
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>功能名称</th>
-            <th>功能模块</th>
-            <th>优先级</th>
-            <th>截止日期</th>
-            <th>测试环境</th>
-            <th>原型文档</th>
-            <th>培训</th>
-            <th>备注</th>
-            <th>状态</th>
-            <th>操作</th>
+            <th>功能名称</th><th>功能模块</th><th>优先级</th><th>截止日期</th>
+            <th>测试环境</th><th>原型文档</th><th>培训</th><th>备注</th><th>状态</th><th>操作</th>
           </tr>
         </thead>
         <tbody id="task-tbody"></tbody>
       </table>
       <div class="empty-state" id="empty-state" style="display:none;">
-        <div class="icon">📭</div>
+        <div class="eicon">📭</div>
         <p>暂无任务，从左侧表单添加第一条吧</p>
       </div>
     </div>
@@ -551,294 +350,291 @@
 
 </div>
 
-<!-- Toast -->
+<!-- Edit Modal -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">✏️ 编辑任务</span>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="e-id">
+      <div class="form-group">
+        <label>功能名称 <span class="req">*</span></label>
+        <input type="text" id="e-name">
+      </div>
+      <div class="form-group">
+        <label>功能模块 <span class="req">*</span></label>
+        <input type="text" id="e-module">
+      </div>
+      <div class="form-group">
+        <label>优先级 <span class="req">*</span></label>
+        <select id="e-priority">
+          <option value="high">🔴 高</option>
+          <option value="medium">🟠 中</option>
+          <option value="low">🟢 低</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>截止日期 <span class="req">*</span></label>
+        <input type="date" id="e-due">
+      </div>
+      <div class="form-group">
+        <label>测试环境链接 <span class="opt">（选填）</span></label>
+        <input type="text" id="e-testlink" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label>原型文档链接 <span class="opt">（选填）</span></label>
+        <input type="text" id="e-protolink" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label>是否需要培训</label>
+        <div class="radio-group">
+          <label class="radio-opt"><input type="radio" name="etraining" value="yes"> 是</label>
+          <label class="radio-opt"><input type="radio" name="etraining" value="no"> 否</label>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label>备注说明 <span class="opt">（选填）</span></label>
+        <textarea id="e-note" placeholder="补充说明..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" style="width:auto;min-width:80px;" onclick="saveEdit()">保存修改</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-  let tasks = JSON.parse(localStorage.getItem('docTasks') || '[]');
+let tasks = JSON.parse(localStorage.getItem('docTasks') || '[]');
+const PM = { high:{label:'高',cls:'badge-high'}, medium:{label:'中',cls:'badge-medium'}, low:{label:'低',cls:'badge-low'} };
 
-  const priorityMap = {
-    high: { label: '高', class: 'badge-high' },
-    medium: { label: '中', class: 'badge-medium' },
-    low: { label: '低', class: 'badge-low' }
-  };
+function today() { return new Date().toISOString().split('T')[0]; }
+function tomorrow() { const d=new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0]; }
 
-  function save() {
-    localStorage.setItem('docTasks', JSON.stringify(tasks));
-    renderTable();
-    updateStats();
-  }
+function save() { localStorage.setItem('docTasks', JSON.stringify(tasks)); renderTable(); updateStats(); updateModuleFilter(); }
 
-  function today() {
-    return new Date().toISOString().split('T')[0];
-  }
+function addTask() {
+  const name=document.getElementById('f-name').value.trim();
+  const module=document.getElementById('f-module').value.trim();
+  const priority=document.getElementById('f-priority').value;
+  const due=document.getElementById('f-due').value;
+  if (!name||!module||!priority||!due) { showToast('请填写必填字段','error'); return; }
+  const training=document.querySelector('input[name="training"]:checked')?.value||'no';
+  tasks.unshift({ id:Date.now(), name, module, priority, due,
+    testLink:document.getElementById('f-testlink').value.trim(),
+    protoLink:document.getElementById('f-protolink').value.trim(),
+    training, note:document.getElementById('f-note').value.trim(),
+    status:'pending', createdAt:new Date().toISOString() });
+  ['f-name','f-module','f-testlink','f-protolink','f-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-priority').value='';
+  document.getElementById('f-due').value='';
+  document.querySelector('input[name="training"][value="no"]').checked=true;
+  save(); showToast('✅ 任务已添加');
+}
 
-  function tomorrow() {
-    const d = new Date();
-    d.setDate(d.getDate() + 1);
-    return d.toISOString().split('T')[0];
-  }
+function toggleStatus(id) {
+  const t=tasks.find(t=>t.id===id);
+  if(t){ t.status=t.status==='pending'?'done':'pending'; save(); }
+}
 
-  function addTask() {
-    const name = document.getElementById('f-name').value.trim();
-    const module = document.getElementById('f-module').value.trim();
-    const priority = document.getElementById('f-priority').value;
-    const due = document.getElementById('f-due').value;
+function deleteTask(id) {
+  if(!confirm('确认删除这条任务吗？')) return;
+  tasks=tasks.filter(t=>t.id!==id); save();
+}
 
-    if (!name || !module || !priority || !due) {
-      showToast('请填写必填字段（功能名称、功能模块、优先级、截止日期）', 'error');
-      return;
-    }
+// Edit
+function openEdit(id) {
+  const t=tasks.find(t=>t.id===id); if(!t) return;
+  document.getElementById('e-id').value=t.id;
+  document.getElementById('e-name').value=t.name;
+  document.getElementById('e-module').value=t.module;
+  document.getElementById('e-priority').value=t.priority;
+  document.getElementById('e-due').value=t.due;
+  document.getElementById('e-testlink').value=t.testLink||'';
+  document.getElementById('e-protolink').value=t.protoLink||'';
+  document.getElementById('e-note').value=t.note||'';
+  const tr=document.querySelector(`input[name="etraining"][value="${t.training||'no'}"]`);
+  if(tr) tr.checked=true;
+  document.getElementById('edit-modal').classList.add('open');
+}
 
-    const training = document.querySelector('input[name="training"]:checked')?.value || 'no';
+function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
 
-    tasks.unshift({
-      id: Date.now(),
-      name,
-      module,
-      priority,
-      due,
-      testLink: document.getElementById('f-testlink').value.trim(),
-      protoLink: document.getElementById('f-protolink').value.trim(),
-      training,
-      note: document.getElementById('f-note').value.trim(),
-      status: 'pending',
-      createdAt: new Date().toISOString()
-    });
+function saveEdit() {
+  const id=parseInt(document.getElementById('e-id').value);
+  const t=tasks.find(t=>t.id===id); if(!t) return;
+  const name=document.getElementById('e-name').value.trim();
+  const module=document.getElementById('e-module').value.trim();
+  const priority=document.getElementById('e-priority').value;
+  const due=document.getElementById('e-due').value;
+  if(!name||!module||!priority||!due){ showToast('请填写必填字段','error'); return; }
+  t.name=name; t.module=module; t.priority=priority; t.due=due;
+  t.testLink=document.getElementById('e-testlink').value.trim();
+  t.protoLink=document.getElementById('e-protolink').value.trim();
+  t.training=document.querySelector('input[name="etraining"]:checked')?.value||'no';
+  t.note=document.getElementById('e-note').value.trim();
+  save(); closeModal(); showToast('✅ 修改已保存');
+}
 
-    // Reset form
-    ['f-name','f-module','f-testlink','f-protolink','f-note'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('f-priority').value = '';
-    document.getElementById('f-due').value = '';
-    document.querySelector('input[name="training"][value="no"]').checked = true;
+// Module filter
+function updateModuleFilter() {
+  const sel=document.getElementById('filter-module');
+  const cur=sel.value;
+  const modules=[...new Set(tasks.map(t=>t.module).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">全部模块</option>'+modules.map(m=>`<option value="${m}"${m===cur?' selected':''}>${m}</option>`).join('');
+}
 
-    save();
-    showToast('✅ 任务已添加');
-  }
+function renderTable() {
+  const search=document.getElementById('search-input').value.toLowerCase();
+  const fp=document.getElementById('filter-priority').value;
+  const fs=document.getElementById('filter-status').value;
+  const fm=document.getElementById('filter-module').value;
+  const tod=today(), tom=tomorrow();
+  let filtered=tasks.filter(t=>{
+    const ms=!search||t.name.toLowerCase().includes(search)||t.module.toLowerCase().includes(search);
+    return ms&&(!fp||t.priority===fp)&&(!fs||t.status===fs)&&(!fm||t.module===fm);
+  });
+  const tbody=document.getElementById('task-tbody');
+  const empty=document.getElementById('empty-state');
+  if(!filtered.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML=filtered.map(t=>{
+    const isOverdue=t.status==='pending'&&t.due<tod;
+    const isToday=t.status==='pending'&&t.due===tod;
+    const isTom=t.status==='pending'&&t.due===tom;
+    const rowCls=t.status==='done'?'completed':(isOverdue||isToday)?'overdue':'';
+    const p=PM[t.priority]||{label:t.priority,cls:''};
+    let dateLabel=t.due;
+    if(isToday) dateLabel=`<span class="overdue-dot"></span>${t.due} 今天`;
+    else if(isOverdue) dateLabel=`<span class="overdue-dot"></span>${t.due} 已逾期`;
+    else if(isTom) dateLabel=`${t.due} 明天`;
+    return `<tr class="${rowCls}">
+      <td class="tname" style="max-width:160px;word-break:break-all;">${t.name}</td>
+      <td>${t.module}</td>
+      <td><span class="badge ${p.cls}">${p.label}</span></td>
+      <td style="white-space:nowrap;font-size:11px;">${dateLabel}</td>
+      <td>${t.testLink?`<a class="link-a" href="${t.testLink}" target="_blank">打开↗</a>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td>${t.protoLink?`<a class="link-a" href="${t.protoLink}" target="_blank">打开↗</a>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td>${t.training==='yes'?'✅':'—'}</td>
+      <td style="max-width:120px;word-break:break-all;color:var(--text-secondary);font-size:11px;">${t.note||'—'}</td>
+      <td><button class="status-btn ${t.status==='done'?'status-done':'status-pending'}" onclick="toggleStatus(${t.id})">${t.status==='done'?'✓ 已完成':'○ 未完成'}</button></td>
+      <td><div class="ops">
+        <button class="btn btn-edit btn-sm" onclick="openEdit(${t.id})">编辑</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTask(${t.id})">删除</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
 
-  function toggleStatus(id) {
-    const task = tasks.find(t => t.id === id);
-    if (task) {
-      task.status = task.status === 'pending' ? 'done' : 'pending';
-      save();
-    }
-  }
+function updateStats() {
+  const tod=today();
+  const total=tasks.length;
+  const pending=tasks.filter(t=>t.status==='pending').length;
+  const done=tasks.filter(t=>t.status==='done').length;
+  const high=tasks.filter(t=>t.priority==='high'&&t.status==='pending').length;
+  const todayDue=tasks.filter(t=>t.status==='pending'&&t.due===tod).length;
+  const overdue=tasks.filter(t=>t.status==='pending'&&t.due<tod).length;
+  document.getElementById('s-pending').textContent=pending;
+  document.getElementById('s-today').textContent=todayDue;
+  document.getElementById('s-overdue').textContent=overdue;
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('sc-total').textContent=total;
+  document.getElementById('sc-pending').textContent=pending;
+  document.getElementById('sc-done').textContent=done;
+  document.getElementById('sc-high').textContent=high;
+  document.getElementById('sc-today').textContent=todayDue;
+  // Progress
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  // Priority bars
+  ['high','medium','low'].forEach(p=>{
+    const all=tasks.filter(t=>t.priority===p);
+    const doneP=all.filter(t=>t.status==='done');
+    const pct2=all.length?Math.round(doneP.length/all.length*100):0;
+    const id=p==='medium'?'med':p;
+    document.getElementById(`pb-${id}`).style.width=pct2+'%';
+    document.getElementById(`pb-${id}-txt`).textContent=`${doneP.length}/${all.length}`;
+  });
+}
 
-  function deleteTask(id) {
-    if (!confirm('确认删除这条任务吗？')) return;
-    tasks = tasks.filter(t => t.id !== id);
-    save();
-  }
+// Webhook
+function saveWebhook() {
+  const url=document.getElementById('webhook-url').value.trim();
+  if(!url){ showToast('请输入 Webhook 地址','error'); return; }
+  localStorage.setItem('webhookUrl',url); showToast('✅ Webhook 已保存');
+}
+function getWebhook(){ return localStorage.getItem('webhookUrl')||''; }
+async function sendWx(content) {
+  const url=getWebhook();
+  if(!url){ showPushStatus('❌ 请先保存 Webhook 地址','error'); return; }
+  try {
+    await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgtype:'markdown',markdown:{content}}),mode:'no-cors'});
+    showPushStatus('✅ 发送成功，请查看企微群','success');
+  } catch(e){ showPushStatus('❌ 发送失败，请检查 Webhook 地址','error'); }
+}
+function fmtLine(t){ const p=PM[t.priority]?.label||t.priority; return `> **${t.name}** ｜ ${t.module} ｜ 优先级：${p} ｜ 截止：${t.due}`; }
+function pushToday(){ const l=tasks.filter(t=>t.status==='pending'&&t.due===today()); if(!l.length){showPushStatus('暂无今日到期任务','success');return;} sendWx(`## 📋 今日待完成文档任务\n共 **${l.length}** 条\n\n`+l.map(fmtLine).join('\n')); }
+function pushTomorrow(){ const l=tasks.filter(t=>t.status==='pending'&&t.due===tomorrow()); if(!l.length){showPushStatus('暂无明日到期任务','success');return;} sendWx(`## ⚠️ 明日到期提醒\n共 **${l.length}** 条\n\n`+l.map(fmtLine).join('\n')); }
+function pushAll(){ const l=tasks.filter(t=>t.status==='pending'); if(!l.length){showPushStatus('🎉 所有任务已完成！','success');return;} sendWx(`## 📊 全部未完成任务\n共 **${l.length}** 条\n\n`+l.map(fmtLine).join('\n')); }
+function showPushStatus(msg,type){ const el=document.getElementById('push-status'); el.textContent=msg; el.className=`push-status ${type}`; setTimeout(()=>el.className='push-status',4000); }
 
-  function renderTable() {
-    const search = document.getElementById('search-input').value.toLowerCase();
-    const filterP = document.getElementById('filter-priority').value;
-    const filterS = document.getElementById('filter-status').value;
-
-    let filtered = tasks.filter(t => {
-      const matchSearch = !search || t.name.toLowerCase().includes(search) || t.module.toLowerCase().includes(search);
-      const matchP = !filterP || t.priority === filterP;
-      const matchS = !filterS || t.status === filterS;
-      return matchSearch && matchP && matchS;
-    });
-
-    const tbody = document.getElementById('task-tbody');
-    const empty = document.getElementById('empty-state');
-
-    if (filtered.length === 0) {
-      tbody.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
-    empty.style.display = 'none';
-    const tod = today();
-    const tom = tomorrow();
-
-    tbody.innerHTML = filtered.map(t => {
-      const isOverdue = t.status === 'pending' && t.due <= tod;
-      const isTomorrow = t.status === 'pending' && t.due === tom;
-      const rowClass = t.status === 'done' ? 'completed' : (isOverdue ? 'overdue' : '');
-      const p = priorityMap[t.priority] || { label: t.priority, class: '' };
-
-      let dateLabel = t.due;
-      if (t.due === tod && t.status === 'pending') dateLabel = `<span class="overdue-flag"></span>${t.due} 今天`;
-      else if (isTomorrow) dateLabel = `${t.due} 明天`;
-
-      return `<tr class="${rowClass}">
-        <td class="task-name" style="max-width:180px;word-break:break-all;">${t.name}</td>
-        <td>${t.module}</td>
-        <td><span class="badge ${p.class}">${p.label}</span></td>
-        <td style="white-space:nowrap;">${dateLabel}</td>
-        <td class="link-cell">${t.testLink ? `<a href="${t.testLink}" target="_blank">打开</a>` : '<span style="color:var(--text-muted)">—</span>'}</td>
-        <td class="link-cell">${t.protoLink ? `<a href="${t.protoLink}" target="_blank">打开</a>` : '<span style="color:var(--text-muted)">—</span>'}</td>
-        <td>${t.training === 'yes' ? '✅' : '—'}</td>
-        <td style="max-width:150px;word-break:break-all;color:var(--text-secondary);">${t.note || '—'}</td>
-        <td>
-          <button class="status-btn ${t.status === 'done' ? 'status-done' : 'status-pending'}"
-            onclick="toggleStatus(${t.id})">
-            ${t.status === 'done' ? '✓ 已完成' : '○ 未完成'}
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-danger" onclick="deleteTask(${t.id})">删除</button>
-        </td>
-      </tr>`;
-    }).join('');
-  }
-
-  function updateStats() {
-    const tod = today();
-    const pending = tasks.filter(t => t.status === 'pending').length;
-    const todayDue = tasks.filter(t => t.status === 'pending' && t.due === tod).length;
-    document.getElementById('stat-pending').textContent = pending;
-    document.getElementById('stat-today').textContent = todayDue;
-    document.getElementById('stat-total').textContent = tasks.length;
-  }
-
-  // Webhook
-  function saveWebhook() {
-    const url = document.getElementById('webhook-url').value.trim();
-    if (!url) { showToast('请输入 Webhook 地址', 'error'); return; }
-    localStorage.setItem('webhookUrl', url);
-    showToast('✅ Webhook 地址已保存');
-  }
-
-  function getWebhook() {
-    return localStorage.getItem('webhookUrl') || '';
-  }
-
-  async function sendWxMsg(content) {
-    const url = getWebhook();
-    if (!url) {
-      showPushStatus('❌ 请先填写并保存 Webhook 地址', 'error');
-      return;
-    }
-    const body = { msgtype: 'markdown', markdown: { content } };
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-        mode: 'no-cors'
-      });
-      showPushStatus('✅ 发送成功（请查看企微群）', 'success');
-    } catch (e) {
-      showPushStatus('❌ 发送失败，请检查 Webhook 地址', 'error');
-    }
-  }
-
-  function formatTaskLine(t) {
-    const p = priorityMap[t.priority]?.label || t.priority;
-    return `> **${t.name}** ｜ ${t.module} ｜ 优先级：${p} ｜ 截止：${t.due}`;
-  }
-
-  function pushToday() {
-    const tod = today();
-    const list = tasks.filter(t => t.status === 'pending' && t.due === tod);
-    if (!list.length) { showPushStatus('暂无今日到期任务', 'success'); return; }
-    const content = `## 📋 今日待完成文档任务\n共 **${list.length}** 条\n\n` + list.map(formatTaskLine).join('\n');
-    sendWxMsg(content);
-  }
-
-  function pushTomorrow() {
-    const tom = tomorrow();
-    const list = tasks.filter(t => t.status === 'pending' && t.due === tom);
-    if (!list.length) { showPushStatus('暂无明日到期任务', 'success'); return; }
-    const content = `## ⚠️ 明日到期提醒\n共 **${list.length}** 条，请注意及时完成\n\n` + list.map(formatTaskLine).join('\n');
-    sendWxMsg(content);
-  }
-
-  function pushAll() {
-    const list = tasks.filter(t => t.status === 'pending');
-    if (!list.length) { showPushStatus('🎉 所有任务已完成！', 'success'); return; }
-    const content = `## 📊 全部未完成任务汇总\n共 **${list.length}** 条\n\n` + list.map(formatTaskLine).join('\n');
-    sendWxMsg(content);
-  }
-
-  function showPushStatus(msg, type) {
-    const el = document.getElementById('push-status');
-    el.textContent = msg;
-    el.className = `push-status ${type}`;
-    setTimeout(() => { el.className = 'push-status'; }, 4000);
-  }
-
-  // Export CSV
-  function exportCSV() {
-    if (!tasks.length) { showToast('暂无数据可导出', 'error'); return; }
-    const headers = ['功能名称','功能模块','优先级','截止日期','测试环境','原型文档','是否培训','备注','状态'];
-    const rows = tasks.map(t => [
-      t.name, t.module,
-      priorityMap[t.priority]?.label || t.priority,
-      t.due, t.testLink, t.protoLink,
-      t.training === 'yes' ? '是' : '否',
-      t.note,
-      t.status === 'done' ? '已完成' : '未完成'
-    ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
-    const csv = '\uFEFF' + [headers.join(','), ...rows].join('\n');
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    a.download = `文档任务_${today()}.csv`;
-    a.click();
-  }
-
-  // Toast
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = `toast ${type} show`;
-    setTimeout(() => { t.className = 'toast'; }, 3000);
-  }
-
-  // Browser notifications
-  function requestNotificationPermission() {
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
+// Reminder
+function saveReminderTime() {
+  const t=document.getElementById('reminder-time').value;
+  localStorage.setItem('reminderTime',t); showToast(`✅ 提醒时间已设为 ${t}`);
+}
+function testNotification() {
+  if(Notification.permission==='granted'){
+    new Notification('🔔 提醒测试', {body:'如果你看到这条通知，说明提醒功能正常！'});
+    showToast('测试通知已发送，请查看桌面右下角');
+  } else if(Notification.permission==='default'){
+    Notification.requestPermission().then(p=>{ if(p==='granted') testNotification(); });
+  } else { showToast('请在浏览器设置中开启通知权限','error'); }
+}
+function checkDailyNotifications() {
+  const tod=today();
+  if(localStorage.getItem('lastNotified')===tod) return;
+  const rTime=localStorage.getItem('reminderTime')||'09:00';
+  const [rh,rm]=rTime.split(':').map(Number);
+  const now=new Date();
+  if(now.getHours()>=rh||(now.getHours()===rh&&now.getMinutes()>=rm)){
+    localStorage.setItem('lastNotified',tod);
+    if(Notification.permission==='granted'){
+      const todList=tasks.filter(t=>t.status==='pending'&&t.due===tod);
+      const tomList=tasks.filter(t=>t.status==='pending'&&t.due===tomorrow());
+      setTimeout(()=>{
+        if(todList.length) new Notification(`📋 今日待完成（${todList.length}条）`,{body:todList.map(t=>t.name).join('、')});
+        if(tomList.length) setTimeout(()=>new Notification(`⚠️ 明日到期提醒（${tomList.length}条）`,{body:tomList.map(t=>t.name).join('、')}),2000);
+      },1000);
     }
   }
+}
 
-  function sendNotification(title, body) {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(title, { body, icon: '📄' });
-    }
-  }
+// Export
+function exportCSV() {
+  if(!tasks.length){ showToast('暂无数据','error'); return; }
+  const h=['功能名称','功能模块','优先级','截止日期','测试环境','原型文档','是否培训','备注','状态'];
+  const rows=tasks.map(t=>[t.name,t.module,PM[t.priority]?.label||t.priority,t.due,t.testLink,t.protoLink,t.training==='yes'?'是':'否',t.note,t.status==='done'?'已完成':'未完成'].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv='\uFEFF'+[h.join(','),...rows].join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download=`文档任务_${today()}.csv`; a.click();
+}
 
-  function checkDailyNotifications() {
-    const tod = today();
-    const lastNotified = localStorage.getItem('lastNotified');
-    if (lastNotified === tod) return;
+// Toast
+function showToast(msg,type='success'){ const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`; setTimeout(()=>t.className='toast',3000); }
 
-    localStorage.setItem('lastNotified', tod);
+// Close modal on overlay click
+document.getElementById('edit-modal').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
 
-    const todayTasks = tasks.filter(t => t.status === 'pending' && t.due === tod);
-    const tomorrowTasks = tasks.filter(t => t.status === 'pending' && t.due === tomorrow());
-
-    setTimeout(() => {
-      if (todayTasks.length > 0) {
-        sendNotification(
-          `📋 今日待完成文档任务（${todayTasks.length} 条）`,
-          todayTasks.map(t => t.name).join('、')
-        );
-      }
-      if (tomorrowTasks.length > 0) {
-        setTimeout(() => {
-          sendNotification(
-            `⚠️ 明日到期提醒（${tomorrowTasks.length} 条）`,
-            tomorrowTasks.map(t => t.name).join('、')
-          );
-        }, 2000);
-      }
-    }, 1500);
-  }
-
-  // Init
-  const savedWebhook = getWebhook();
-  if (savedWebhook) document.getElementById('webhook-url').value = savedWebhook;
-
-  requestNotificationPermission();
-  renderTable();
-  updateStats();
-  checkDailyNotifications();
+// Init
+const sw=localStorage.getItem('webhookUrl'); if(sw) document.getElementById('webhook-url').value=sw;
+const st=localStorage.getItem('reminderTime'); if(st) document.getElementById('reminder-time').value=st;
+if('Notification' in window && Notification.permission==='default') Notification.requestPermission();
+updateStats(); renderTable(); updateModuleFilter(); checkDailyNotifications();
 </script>
 </body>
 </html>
