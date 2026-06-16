@@ -67,6 +67,9 @@ label { display: block; font-size: 11px; font-weight: 600; color: var(--text-sec
 label .req { color: var(--red); }
 label .opt { color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
 input[type="text"], input[type="date"], input[type="time"], select, textarea { width: 100%; padding: 7px 11px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: inherit; color: var(--text-primary); background: var(--surface); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+input[type="date"] { cursor: pointer; }
+input[type="date"]::-webkit-calendar-picker-indicator { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.date-wrap { position: relative; display: block; }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,0.1); }
 textarea { resize: vertical; min-height: 64px; }
 .radio-group { display: flex; gap: 6px; }
@@ -228,7 +231,18 @@ tr.completed .tname { text-decoration: line-through; }
         </div>
         <div class="form-group">
           <label>功能模块 <span class="req">*</span></label>
-          <input type="text" id="f-module" placeholder="如：订单管理、库存模块">
+          <select id="f-module">
+            <option value="">请选择</option>
+            <option value="产品">产品</option>
+            <option value="营销">营销</option>
+            <option value="数据">数据</option>
+            <option value="订单">订单</option>
+            <option value="分销">分销</option>
+            <option value="库存">库存</option>
+            <option value="WMS">WMS</option>
+            <option value="APP">APP</option>
+            <option value="公共">公共</option>
+          </select>
         </div>
         <div class="form-group">
           <label>优先级 <span class="req">*</span></label>
@@ -241,7 +255,7 @@ tr.completed .tname { text-decoration: line-through; }
         </div>
         <div class="form-group">
           <label>截止日期 <span class="req">*</span></label>
-          <input type="date" id="f-due">
+          <div class="date-wrap"><input type="date" id="f-due"></div>
         </div>
         <div class="form-group">
           <label>测试环境链接 <span class="opt">（选填）</span></label>
@@ -283,6 +297,13 @@ tr.completed .tname { text-decoration: line-through; }
           <button class="btn btn-push" onclick="pushAll()">📊 全部</button>
         </div>
         <div class="push-status" id="push-status"></div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+        <div style="margin-bottom:6px;">
+          <label style="text-transform:none;letter-spacing:0;font-size:12px;color:var(--text-secondary);font-weight:500;">📊 同步数据到腾讯文档</label>
+          <p style="font-size:11px;color:var(--text-muted);margin:3px 0 8px;line-height:1.5;">点击后将所有任务数据同步到腾讯文档表格，供腾讯轻联读取并自动推送。</p>
+          <button class="btn btn-primary" style="background:#07C160;" onclick="syncToQQDoc()">↑ 立即同步到腾讯文档</button>
+        </div>
+        <div class="push-status" id="sync-status"></div>
       </div>
     </div>
 
@@ -365,7 +386,18 @@ tr.completed .tname { text-decoration: line-through; }
       </div>
       <div class="form-group">
         <label>功能模块 <span class="req">*</span></label>
-        <input type="text" id="e-module">
+        <select id="e-module">
+          <option value="">请选择</option>
+          <option value="产品">产品</option>
+          <option value="营销">营销</option>
+          <option value="数据">数据</option>
+          <option value="订单">订单</option>
+          <option value="分销">分销</option>
+          <option value="库存">库存</option>
+          <option value="WMS">WMS</option>
+          <option value="APP">APP</option>
+          <option value="公共">公共</option>
+        </select>
       </div>
       <div class="form-group">
         <label>优先级 <span class="req">*</span></label>
@@ -377,7 +409,7 @@ tr.completed .tname { text-decoration: line-through; }
       </div>
       <div class="form-group">
         <label>截止日期 <span class="req">*</span></label>
-        <input type="date" id="e-due">
+        <div class="date-wrap"><input type="date" id="e-due"></div>
       </div>
       <div class="form-group">
         <label>测试环境链接 <span class="opt">（选填）</span></label>
@@ -484,8 +516,8 @@ function saveEdit() {
 function updateModuleFilter() {
   const sel=document.getElementById('filter-module');
   const cur=sel.value;
-  const modules=[...new Set(tasks.map(t=>t.module).filter(Boolean))].sort();
-  sel.innerHTML='<option value="">全部模块</option>'+modules.map(m=>`<option value="${m}"${m===cur?' selected':''}>${m}</option>`).join('');
+  const fixed=['产品','营销','数据','订单','分销','库存','WMS','APP','公共'];
+  sel.innerHTML='<option value="">全部模块</option>'+fixed.map(m=>`<option value="${m}"${m===cur?' selected':''}>${m}</option>`).join('');
 }
 
 function renderTable() {
@@ -629,6 +661,80 @@ function showToast(msg,type='success'){ const t=document.getElementById('toast')
 
 // Close modal on overlay click
 document.getElementById('edit-modal').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+
+// Sync to Tencent Docs
+const QDOC_ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbHQiOiIwMGUyMWIzMmU2Nzc0MWMxYTA0MjUyYzNmZDZhNzllYiIsInR5cCI6MSwiZXhwIjoxNzg0MTY4NjgxLjY2NTkyNCwiaWF0IjoxNzgxNTc2NjgxLjY2NTkyNCwic3ViIjoiMjFmMDc3ZjE4ZTk1NDc0ZjhhYzlkNjdhYjEwZWFiYzkifQ.UqpIlFsF8PMQnNAdd3wQVYyKSd4mjIsVH1h3xYQYI2I';
+const QDOC_FILE_ID = 'DVUZMS0Rzb2FKUmRR';
+const QDOC_SHEET_ID = 'BB08J2';
+
+async function syncToQQDoc() {
+  const btn = document.querySelector('button[onclick="syncToQQDoc()"]');
+  const statusEl = document.getElementById('sync-status');
+  btn.disabled = true; btn.textContent = '同步中...';
+  showSyncStatus('⏳ 正在同步，请稍候...', 'success');
+
+  try {
+    // Step 1: Clear existing data (rows 2 onwards) by writing empty
+    // Step 2: Write all tasks as rows
+    const rows = tasks.map(t => [
+      t.name || '',
+      t.module || '',
+      PM[t.priority]?.label || t.priority || '',
+      t.due || '',
+      t.testLink || '',
+      t.protoLink || '',
+      t.training === 'yes' ? '是' : '否',
+      t.status === 'done' ? '已完成' : '未完成'
+    ]);
+
+    if (rows.length === 0) {
+      showSyncStatus('暂无任务数据可同步', 'success');
+      btn.disabled = false; btn.textContent = '↑ 立即同步到腾讯文档';
+      return;
+    }
+
+    // Build values array: start from row 2 (index 1), col A (index 0)
+    const values = rows.map(row => row.map(cell => ({ type: 0, v: String(cell) })));
+
+    const payload = {
+      rows: values.map((row, ri) => ({
+        rowIndex: ri + 1,
+        cells: row.map((cell, ci) => ({ colIndex: ci, value: cell }))
+      }))
+    };
+
+    const res = await fetch(`https://docs.qq.com/openapi/drive/v2/files/${QDOC_FILE_ID}/sheets/${QDOC_SHEET_ID}/values/batchUpdate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Token': QDOC_ACCESS_TOKEN,
+        'Client-Id': '00e21b32e67741c1a04252c3fd6a79eb',
+        'Open-Id': ''
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (data.ret === 0 || res.ok) {
+      showSyncStatus(`✅ 同步成功！共 ${rows.length} 条任务已写入腾讯文档`, 'success');
+      showToast('✅ 同步到腾讯文档成功');
+    } else {
+      console.error('Sync error:', data);
+      showSyncStatus(`❌ 同步失败：${data.msg || '请检查 access_token 是否过期'}`, 'error');
+    }
+  } catch(e) {
+    console.error(e);
+    showSyncStatus('❌ 同步失败，可能是网络或 token 问题', 'error');
+  }
+  btn.disabled = false; btn.textContent = '↑ 立即同步到腾讯文档';
+}
+
+function showSyncStatus(msg, type) {
+  const el = document.getElementById('sync-status');
+  el.textContent = msg;
+  el.className = `push-status ${type}`;
+  setTimeout(() => el.className = 'push-status', 6000);
+}
 
 // Init
 const sw=localStorage.getItem('webhookUrl'); if(sw) document.getElementById('webhook-url').value=sw;
