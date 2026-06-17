@@ -17,17 +17,14 @@
 }
 body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; font-size: 14px; line-height: 1.5; }
 
-/* Header */
 .app-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 54px; position: sticky; top: 0; z-index: 200; }
 .logo { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 .logo span { color: var(--accent); }
 .header-stats { display: flex; gap: 20px; font-size: 13px; color: var(--text-secondary); }
 .header-stats strong { color: var(--text-primary); font-weight: 600; }
 
-/* Layout */
 .main { max-width: 1360px; margin: 0 auto; padding: 20px 28px; display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start; }
 
-/* Stats Bar */
 .stats-bar { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
 .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
 .stat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
@@ -39,46 +36,41 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft
 .stat-info p { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
 .stat-info strong { font-size: 22px; font-weight: 700; color: var(--text-primary); line-height: 1; }
 
-/* Progress bar */
-.progress-section { grid-column: 1 / -1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); }
-.progress-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.progress-section { grid-column: 1 / -1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; box-shadow: var(--shadow); }
+.progress-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
 .progress-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-.progress-pct { font-size: 13px; font-weight: 700; color: var(--accent); }
-.progress-track { background: var(--bg); border-radius: 20px; height: 8px; overflow: hidden; margin-bottom: 12px; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #7C9BFA); border-radius: 20px; transition: width 0.4s ease; }
-.priority-bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.pbar { }
-.pbar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
-.pbar-track { background: var(--bg); border-radius: 20px; height: 5px; overflow: hidden; }
-.pbar-fill { height: 100%; border-radius: 20px; }
-.pbar-fill.high { background: var(--red); }
-.pbar-fill.medium { background: var(--orange); }
-.pbar-fill.low { background: var(--green); }
+.progress-pct { font-size: 26px; font-weight: 800; color: var(--accent); line-height: 1; }
+.progress-sublabel { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+.progress-track { background: var(--bg); border-radius: 20px; height: 10px; overflow: hidden; margin-bottom: 16px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #4F6EF7, #7C9BFA); border-radius: 20px; transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+.priority-bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.pbar { background: var(--bg); border-radius: 8px; padding: 10px 12px; }
+.pbar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 500; }
+.pbar-label span:last-child { color: var(--text-primary); font-weight: 700; }
+.pbar-track { background: var(--border); border-radius: 20px; height: 6px; overflow: hidden; }
+.pbar-fill { height: 100%; border-radius: 20px; transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+.pbar-fill.high { background: linear-gradient(90deg, #FF4D4F, #FF7875); }
+.pbar-fill.medium { background: linear-gradient(90deg, #FA8C16, #FFA940); }
+.pbar-fill.low { background: linear-gradient(90deg, #52C41A, #73D13D); }
 
-/* Card */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-.card-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: visible; }
+.card-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; border-radius: var(--radius) var(--radius) 0 0; }
 .card-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .card-body { padding: 18px; }
 
-/* Form */
 .form-group { margin-bottom: 13px; }
 label { display: block; font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
 label .req { color: var(--red); }
 label .opt { color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
-input[type="text"], input[type="date"], input[type="time"], select, textarea { width: 100%; padding: 7px 11px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: inherit; color: var(--text-primary); background: var(--surface); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
-input[type="date"] { cursor: pointer; }
-input[type="date"]::-webkit-calendar-picker-indicator { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-.date-wrap { position: relative; display: block; }
-input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,0.1); }
+input[type="text"], textarea { width: 100%; padding: 7px 11px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: inherit; color: var(--text-primary); background: var(--surface); outline: none; transition: border-color .15s, box-shadow .15s; }
+input[type="text"]:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,.1); }
 textarea { resize: vertical; min-height: 64px; }
 .radio-group { display: flex; gap: 6px; }
-.radio-opt { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px; border: 1px solid var(--border); border-radius: 7px; cursor: pointer; font-size: 13px; color: var(--text-secondary); transition: all 0.15s; user-select: none; }
+.radio-opt { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px; border: 1px solid var(--border); border-radius: 7px; cursor: pointer; font-size: 13px; color: var(--text-secondary); transition: all .15s; user-select: none; }
 .radio-opt input { display: none; }
 .radio-opt:has(input:checked) { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 500; }
 
-/* Buttons */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: inherit; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; font-family: inherit; }
 .btn-primary { background: var(--accent); color: white; width: 100%; }
 .btn-primary:hover { background: #3D5CE6; }
 .btn-sm { padding: 4px 10px; font-size: 12px; border-radius: 6px; }
@@ -88,72 +80,110 @@ textarea { resize: vertical; min-height: 64px; }
 .btn-edit:hover { background: #DDE5FD; }
 .btn-danger { background: transparent; color: var(--red); border: 1px solid #FECACA; }
 .btn-danger:hover { background: var(--red-light); }
-.btn-push { background: var(--bg); color: var(--text-primary); border: 1px solid var(--border); flex: 1; font-size: 12px; }
-.btn-push:hover { background: var(--border); }
 
-/* Webhook */
-.webhook-row { display: flex; gap: 7px; margin-bottom: 10px; }
-.webhook-row input { flex: 1; }
-.push-buttons { display: flex; gap: 6px; }
-.push-status { margin-top: 8px; font-size: 12px; padding: 5px 10px; border-radius: 6px; display: none; }
+.push-status { margin-top: 6px; font-size: 12px; padding: 5px 10px; border-radius: 6px; display: none; }
 .push-status.success { background: var(--green-light); color: #15803D; display: block; }
 .push-status.error { background: var(--red-light); color: #DC2626; display: block; }
 
-/* Reminder */
-.reminder-row { display: flex; gap: 7px; align-items: flex-end; }
-.reminder-row .form-group { flex: 1; margin-bottom: 0; }
+/* ── Custom Select (cs-) ── */
+.cs-wrap { position: relative; width: 100%; }
+.cs-display { width: 100%; padding: 7px 32px 7px 11px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: inherit; color: var(--text-primary); background: var(--surface); cursor: pointer; transition: border-color .15s, box-shadow .15s; user-select: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 8px; }
+.cs-display.placeholder { color: var(--text-muted); }
+.cs-display:hover { border-color: #B8C5FB; }
+.cs-display.open { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,.12); }
+.cs-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 11px; pointer-events: none; transition: transform .2s; }
+.cs-display.open ~ .cs-arrow { transform: translateY(-50%) rotate(180deg); color: var(--accent); }
+.cs-popup { position: fixed; z-index: 9999; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 36px rgba(0,0,0,.13); overflow: hidden; display: none; padding: 4px 0; min-width: 120px; }
+.cs-popup.open { display: block; animation: popIn .12s ease; }
+@keyframes popIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+.cs-option { padding: 9px 14px; font-size: 13px; cursor: pointer; color: var(--text-primary); transition: background .1s; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.cs-option:hover { background: var(--accent-light); color: var(--accent); }
+.cs-option.selected { color: var(--accent); font-weight: 500; }
+.cs-option .cs-check { font-size: 12px; opacity: 0; color: var(--accent); margin-left: auto; }
+.cs-option.selected .cs-check { opacity: 1; }
+.cs-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cs-dot.high { background: linear-gradient(135deg,#FF4D4F,#FF7875); box-shadow: 0 1px 4px rgba(255,77,79,.4); }
+.cs-dot.medium { background: linear-gradient(135deg,#FA8C16,#FFA940); box-shadow: 0 1px 4px rgba(250,140,22,.4); }
+.cs-dot.low { background: linear-gradient(135deg,#52C41A,#73D13D); box-shadow: 0 1px 4px rgba(82,196,26,.4); }
+
+/* Filter bar - inline width */
+.cs-wrap.filter { width: auto; }
+.cs-wrap.filter .cs-display { padding: 6px 26px 6px 10px; font-size: 12px; white-space: nowrap; }
+.cs-wrap.filter .cs-display.active { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 500; }
+
+/* Badge */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-high { background: linear-gradient(135deg,#FF4D4F,#FF7875); color: white; box-shadow: 0 2px 6px rgba(255,77,79,.3); }
+.badge-medium { background: linear-gradient(135deg,#FA8C16,#FFA940); color: white; box-shadow: 0 2px 6px rgba(250,140,22,.3); }
+.badge-low { background: linear-gradient(135deg,#52C41A,#73D13D); color: white; box-shadow: 0 2px 6px rgba(82,196,26,.3); }
+
+/* Custom Datepicker */
+.dp-wrap { position: relative; }
+.dp-display { width: 100%; padding: 7px 11px 7px 34px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; font-family: inherit; color: var(--text-muted); background: var(--surface); cursor: pointer; transition: border-color .15s, box-shadow .15s; user-select: none; }
+.dp-display.has-value { color: var(--text-primary); }
+.dp-display:hover { border-color: #B8C5FB; }
+.dp-display.open { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,.12); }
+.dp-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; }
+.dp-popup { position: fixed; z-index: 9999; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.12); width: 268px; padding: 16px; display: none; }
+.dp-popup.open { display: block; animation: popIn .12s ease; }
+.dp-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.dp-nav-btn { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: background .1s; }
+.dp-nav-btn:hover { background: var(--accent-light); color: var(--accent); }
+.dp-month-label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.dp-weekdays { display: grid; grid-template-columns: repeat(7,1fr); margin-bottom: 4px; }
+.dp-weekdays span { text-align: center; font-size: 11px; font-weight: 600; color: var(--text-muted); padding: 4px 0; }
+.dp-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.dp-day { text-align: center; padding: 6px 2px; font-size: 12px; border-radius: 6px; cursor: pointer; color: var(--text-primary); transition: background .1s; }
+.dp-day:hover:not(.dp-empty):not(.dp-selected) { background: var(--accent-light); color: var(--accent); }
+.dp-empty { cursor: default; }
+.dp-today { font-weight: 700; color: var(--accent); }
+.dp-selected { background: var(--accent) !important; color: white !important; font-weight: 600; }
+.dp-footer { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+.dp-clear-btn, .dp-today-btn { font-size: 12px; cursor: pointer; background: none; border: none; font-family: inherit; }
+.dp-clear-btn { color: var(--text-muted); } .dp-clear-btn:hover { color: var(--red); }
+.dp-today-btn { color: var(--accent); font-weight: 600; }
 
 /* Table */
-.table-toolbar { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-.table-toolbar input { width: 180px; padding: 6px 11px; font-size: 13px; }
-.filter-sel { padding: 6px 10px; font-size: 12px; width: auto; }
+.table-toolbar { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-bottom: 1px solid var(--border); }
+.table-toolbar .search-input { width: 160px; flex-shrink: 1; min-width: 100px; padding: 6px 11px; font-size: 13px; border: 1px solid var(--border); border-radius: 7px; outline: none; font-family: inherit; color: var(--text-primary); }
+.table-toolbar .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,.1); }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th { background: var(--bg); padding: 9px 12px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+th { background: var(--bg); padding: 9px 12px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
 td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text-primary); }
 tr:last-child td { border-bottom: none; }
 tr.overdue td { background: #FFF5F5; }
 tr.completed td { color: var(--text-muted); }
 tr.completed .tname { text-decoration: line-through; }
-.badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; white-space: nowrap; }
-.badge-high { background: #FEE2E2; color: #DC2626; }
-.badge-medium { background: #FED7AA; color: #C2410C; }
-.badge-low { background: #DCFCE7; color: #15803D; }
-.status-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer; border: none; font-family: inherit; transition: all 0.15s; }
-.status-pending { background: #FEF3C7; color: #92400E; }
-.status-pending:hover { background: #FDE68A; }
-.status-done { background: var(--green-light); color: #15803D; }
-.status-done:hover { background: #BBFBD0; }
-.link-a { color: var(--accent); text-decoration: none; font-size: 11px; }
-.link-a:hover { text-decoration: underline; }
+.status-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer; border: none; font-family: inherit; transition: all .15s; }
+.status-pending { background: #FEF3C7; color: #92400E; } .status-pending:hover { background: #FDE68A; }
+.status-done { background: var(--green-light); color: #15803D; } .status-done:hover { background: #BBFBD0; }
+.link-a { color: var(--accent); text-decoration: none; font-size: 11px; } .link-a:hover { text-decoration: underline; }
 .overdue-dot { display: inline-block; width: 5px; height: 5px; background: var(--red); border-radius: 50%; margin-right: 3px; vertical-align: middle; }
 .ops { display: flex; gap: 4px; }
 .empty-state { text-align: center; padding: 44px 20px; color: var(--text-muted); }
 .empty-state .eicon { font-size: 30px; margin-bottom: 8px; }
 
 /* Modal */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 500; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 500; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
 .modal-overlay.open { opacity: 1; pointer-events: auto; }
-.modal { background: var(--surface); border-radius: 14px; width: 520px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); transform: translateY(12px); transition: transform 0.2s; }
+.modal { background: var(--surface); border-radius: 14px; width: 520px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.2); transform: translateY(12px); transition: transform .2s; }
 .modal-overlay.open .modal { transform: translateY(0); }
 .modal-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--surface); z-index: 1; }
 .modal-title { font-size: 15px; font-weight: 600; }
-.modal-close { background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0 4px; }
-.modal-close:hover { color: var(--text-primary); }
+.modal-close { background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; padding: 0 4px; }
 .modal-body { padding: 20px 22px; }
 .modal-footer { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
 .modal-footer .btn { width: auto; }
 
-/* Toast */
-.toast { position: fixed; bottom: 22px; right: 22px; padding: 11px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 500; box-shadow: 0 4px 14px rgba(0,0,0,0.15); z-index: 999; transform: translateY(80px); opacity: 0; transition: all 0.25s; }
+.toast { position: fixed; bottom: 22px; right: 22px; padding: 11px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 500; box-shadow: 0 4px 14px rgba(0,0,0,.15); z-index: 9999; transform: translateY(80px); opacity: 0; transition: all .25s; }
 .toast.show { transform: translateY(0); opacity: 1; }
 .toast.success { background: #1A1D23; color: white; }
 .toast.error { background: var(--red); color: white; }
 
 @media (max-width: 960px) {
   .main { grid-template-columns: 1fr; padding: 14px; }
-  .stats-bar { grid-template-columns: repeat(2, 1fr); }
-  .push-buttons { flex-wrap: wrap; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); }
 }
 </style>
 </head>
@@ -171,57 +201,30 @@ tr.completed .tname { text-decoration: line-through; }
 
 <div class="main">
 
-  <!-- Stats Bar -->
   <div class="stats-bar">
-    <div class="stat-card">
-      <div class="stat-icon blue">📋</div>
-      <div class="stat-info"><p>总任务</p><strong id="sc-total">0</strong></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon orange">⏳</div>
-      <div class="stat-info"><p>未完成</p><strong id="sc-pending">0</strong></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon green">✅</div>
-      <div class="stat-info"><p>已完成</p><strong id="sc-done">0</strong></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon red">🔥</div>
-      <div class="stat-info"><p>高优先级</p><strong id="sc-high">0</strong></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon purple">📅</div>
-      <div class="stat-info"><p>今日到期</p><strong id="sc-today">0</strong></div>
-    </div>
+    <div class="stat-card"><div class="stat-icon blue">📋</div><div class="stat-info"><p>总任务</p><strong id="sc-total">0</strong></div></div>
+    <div class="stat-card"><div class="stat-icon orange">⏳</div><div class="stat-info"><p>未完成</p><strong id="sc-pending">0</strong></div></div>
+    <div class="stat-card"><div class="stat-icon green">✅</div><div class="stat-info"><p>已完成</p><strong id="sc-done">0</strong></div></div>
+    <div class="stat-card"><div class="stat-icon red">🔥</div><div class="stat-info"><p>高优先级</p><strong id="sc-high">0</strong></div></div>
+    <div class="stat-card"><div class="stat-icon purple">📅</div><div class="stat-info"><p>今日到期</p><strong id="sc-today">0</strong></div></div>
   </div>
 
-  <!-- Progress -->
   <div class="progress-section">
     <div class="progress-header">
       <span class="progress-title">整体完成进度</span>
       <span class="progress-pct" id="prog-pct">0%</span>
     </div>
+    <div class="progress-sublabel" id="prog-sublabel">暂无任务</div>
     <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     <div class="priority-bars">
-      <div class="pbar">
-        <div class="pbar-label"><span>🔴 高优先级</span><span id="pb-high-txt">0/0</span></div>
-        <div class="pbar-track"><div class="pbar-fill high" id="pb-high" style="width:0%"></div></div>
-      </div>
-      <div class="pbar">
-        <div class="pbar-label"><span>🟠 中优先级</span><span id="pb-med-txt">0/0</span></div>
-        <div class="pbar-track"><div class="pbar-fill medium" id="pb-med" style="width:0%"></div></div>
-      </div>
-      <div class="pbar">
-        <div class="pbar-label"><span>🟢 低优先级</span><span id="pb-low-txt">0/0</span></div>
-        <div class="pbar-track"><div class="pbar-fill low" id="pb-low" style="width:0%"></div></div>
-      </div>
+      <div class="pbar"><div class="pbar-label"><span>🔴 高优先级</span><span id="pb-high-txt">0/0</span></div><div class="pbar-track"><div class="pbar-fill high" id="pb-high" style="width:0%"></div></div></div>
+      <div class="pbar"><div class="pbar-label"><span>🟠 中优先级</span><span id="pb-med-txt">0/0</span></div><div class="pbar-track"><div class="pbar-fill medium" id="pb-med" style="width:0%"></div></div></div>
+      <div class="pbar"><div class="pbar-label"><span>🟢 低优先级</span><span id="pb-low-txt">0/0</span></div><div class="pbar-track"><div class="pbar-fill low" id="pb-low" style="width:0%"></div></div></div>
     </div>
   </div>
 
   <!-- Left Column -->
   <div style="display:flex;flex-direction:column;gap:14px;">
-
-    <!-- Add Form -->
     <div class="card">
       <div class="card-header"><span class="card-title">✏️ 新增任务</span></div>
       <div class="card-body">
@@ -231,39 +234,52 @@ tr.completed .tname { text-decoration: line-through; }
         </div>
         <div class="form-group">
           <label>功能模块 <span class="req">*</span></label>
-          <select id="f-module">
-            <option value="">请选择</option>
-            <option value="产品">产品</option>
-            <option value="营销">营销</option>
-            <option value="数据">数据</option>
-            <option value="订单">订单</option>
-            <option value="分销">分销</option>
-            <option value="库存">库存</option>
-            <option value="WMS">WMS</option>
-            <option value="APP">APP</option>
-            <option value="公共">公共</option>
-          </select>
+          <div class="cs-wrap">
+            <div class="cs-display placeholder" id="cs-f-module-display" onclick="csToggle('f-module')">请选择</div>
+            <span class="cs-arrow">▾</span>
+            <input type="hidden" id="f-module">
+            <div class="cs-popup" id="cs-f-module-popup">
+              <div class="cs-option" onclick="csSelect('f-module','产品','产品')">产品<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','营销','营销')">营销<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','数据','数据')">数据<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','订单','订单')">订单<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','分销','分销')">分销<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','库存','库存')">库存<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','WMS','WMS')">WMS<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','APP','APP')">APP<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-module','公共','公共')">公共<span class="cs-check">✓</span></div>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label>优先级 <span class="req">*</span></label>
-          <select id="f-priority">
-            <option value="">请选择</option>
-            <option value="high">🔴 高</option>
-            <option value="medium">🟠 中</option>
-            <option value="low">🟢 低</option>
-          </select>
+          <div class="cs-wrap">
+            <div class="cs-display placeholder" id="cs-f-priority-display" onclick="csToggle('f-priority')">请选择</div>
+            <span class="cs-arrow">▾</span>
+            <input type="hidden" id="f-priority">
+            <div class="cs-popup" id="cs-f-priority-popup">
+              <div class="cs-option" onclick="csSelect('f-priority','high','高优先级')"><span class="cs-dot high"></span>高优先级<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-priority','medium','中优先级')"><span class="cs-dot medium"></span>中优先级<span class="cs-check">✓</span></div>
+              <div class="cs-option" onclick="csSelect('f-priority','low','低优先级')"><span class="cs-dot low"></span>低优先级<span class="cs-check">✓</span></div>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label>截止日期 <span class="req">*</span></label>
-          <div class="date-wrap"><input type="date" id="f-due"></div>
+          <div class="dp-wrap">
+            <span class="dp-icon">📅</span>
+            <div class="dp-display" id="dp-f-due-display" onclick="dpToggle('f-due')">选择日期</div>
+            <input type="hidden" id="f-due">
+            <div class="dp-popup" id="dp-f-due-popup"></div>
+          </div>
         </div>
         <div class="form-group">
           <label>测试环境链接 <span class="opt">（选填）</span></label>
-          <input type="text" id="f-testlink" placeholder="https://...">
+          <input type="text" id="f-testlink" placeholder="bsxx...">
         </div>
         <div class="form-group">
-          <label>原型文档链接 <span class="opt">（选填）</span></label>
-          <input type="text" id="f-protolink" placeholder="https://...">
+          <label>原型文档名称 <span class="opt">（选填）</span></label>
+          <input type="text" id="f-protolink" placeholder="如：登录流程原型v2">
         </div>
         <div class="form-group">
           <label>是否需要培训</label>
@@ -277,80 +293,58 @@ tr.completed .tname { text-decoration: line-through; }
           <textarea id="f-note" placeholder="补充说明..."></textarea>
         </div>
         <button class="btn btn-primary" onclick="addTask()">＋ 添加任务</button>
+        <button class="btn btn-primary" style="background:#22C55E;margin-top:8px;" onclick="syncToCloud()">☁️ 同步到云端</button>
+        <div class="push-status" id="sync-status" style="margin-top:6px;"></div>
       </div>
     </div>
-
-    <!-- Webhook -->
-    <div class="card">
-      <div class="card-header"><span class="card-title">🤖 企微机器人推送</span></div>
-      <div class="card-body">
-        <div class="form-group">
-          <label>Webhook 地址</label>
-          <div class="webhook-row">
-            <input type="text" id="webhook-url" placeholder="https://qyapi.weixin.qq.com/...">
-            <button class="btn btn-ghost" onclick="saveWebhook()">保存</button>
-          </div>
-        </div>
-        <div class="push-buttons">
-          <button class="btn btn-push" onclick="pushToday()">📋 今日</button>
-          <button class="btn btn-push" onclick="pushTomorrow()">⚠️ 明日</button>
-          <button class="btn btn-push" onclick="pushAll()">📊 全部</button>
-        </div>
-        <div class="push-status" id="push-status"></div>
-        <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
-        <div style="margin-bottom:6px;">
-          <label style="text-transform:none;letter-spacing:0;font-size:12px;color:var(--text-secondary);font-weight:500;">☁️ 同步数据到云端</label>
-          <p style="font-size:11px;color:var(--text-muted);margin:3px 0 8px;line-height:1.5;">点击后将任务数据同步到云端，腾讯轻联每天定时读取并自动推送到企微。</p>
-          <button class="btn btn-primary" style="background:#4F6EF7;" onclick="syncToCloud()">☁️ 立即同步到云端</button>
-        </div>
-        <div class="push-status" id="sync-status"></div>
-      </div>
-    </div>
-
-    <!-- Reminder Time -->
-    <div class="card">
-      <div class="card-header"><span class="card-title">⏰ 每日提醒设置</span></div>
-      <div class="card-body">
-        <div class="form-group" style="margin-bottom:10px;">
-          <label>提醒时间（每天打开页面后触发）</label>
-          <div class="reminder-row">
-            <div class="form-group">
-              <input type="time" id="reminder-time" value="09:00">
-            </div>
-            <button class="btn btn-ghost btn-sm" style="margin-bottom:0;height:34px;" onclick="saveReminderTime()">保存</button>
-          </div>
-        </div>
-        <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">设置后，每天在此时间首次打开页面会触发浏览器桌面通知，提醒你当天及明天到期的任务。</p>
-        <div style="margin-top:10px;">
-          <button class="btn btn-ghost btn-sm" onclick="testNotification()">🔔 测试通知</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <!-- Right: Table -->
-  <div class="card" style="overflow:hidden;">
+  <div class="card" style="overflow:visible;">
     <div class="card-header">
       <span class="card-title">📋 任务列表</span>
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ 导出 CSV</button>
     </div>
     <div class="table-toolbar">
-      <input type="text" placeholder="搜索任务名称/模块..." oninput="renderTable()" id="search-input">
-      <select class="filter-sel" id="filter-priority" onchange="renderTable()">
-        <option value="">全部优先级</option>
-        <option value="high">高</option>
-        <option value="medium">中</option>
-        <option value="low">低</option>
-      </select>
-      <select class="filter-sel" id="filter-status" onchange="renderTable()">
-        <option value="">全部状态</option>
-        <option value="pending">未完成</option>
-        <option value="done">已完成</option>
-      </select>
-      <select class="filter-sel" id="filter-module" onchange="renderTable()">
-        <option value="">全部模块</option>
-      </select>
+      <input type="text" class="search-input" placeholder="搜索任务名称/模块..." oninput="renderTable()" id="search-input">
+      <div class="cs-wrap filter">
+        <div class="cs-display" id="cs-fp-display" onclick="csToggle('fp')">全部优先级</div>
+        <span class="cs-arrow">▾</span>
+        <input type="hidden" id="filter-priority" value="">
+        <div class="cs-popup" id="cs-fp-popup">
+          <div class="cs-option selected" onclick="csFilter('fp','filter-priority','','全部优先级')">全部优先级<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fp','filter-priority','high','高优先级')"><span class="cs-dot high"></span>高优先级<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fp','filter-priority','medium','中优先级')"><span class="cs-dot medium"></span>中优先级<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fp','filter-priority','low','低优先级')"><span class="cs-dot low"></span>低优先级<span class="cs-check">✓</span></div>
+        </div>
+      </div>
+      <div class="cs-wrap filter">
+        <div class="cs-display" id="cs-fs-display" onclick="csToggle('fs')">全部状态</div>
+        <span class="cs-arrow">▾</span>
+        <input type="hidden" id="filter-status" value="">
+        <div class="cs-popup" id="cs-fs-popup">
+          <div class="cs-option selected" onclick="csFilter('fs','filter-status','','全部状态')">全部状态<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fs','filter-status','pending','未完成')">未完成<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fs','filter-status','done','已完成')">已完成<span class="cs-check">✓</span></div>
+        </div>
+      </div>
+      <div class="cs-wrap filter">
+        <div class="cs-display" id="cs-fm-display" onclick="csToggle('fm')">全部模块</div>
+        <span class="cs-arrow">▾</span>
+        <input type="hidden" id="filter-module" value="">
+        <div class="cs-popup" id="cs-fm-popup">
+          <div class="cs-option selected" onclick="csFilter('fm','filter-module','','全部模块')">全部模块<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','产品','产品')">产品<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','营销','营销')">营销<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','数据','数据')">数据<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','订单','订单')">订单<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','分销','分销')">分销<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','库存','库存')">库存<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','WMS','WMS')">WMS<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','APP','APP')">APP<span class="cs-check">✓</span></div>
+          <div class="cs-option" onclick="csFilter('fm','filter-module','公共','公共')">公共<span class="cs-check">✓</span></div>
+        </div>
+      </div>
     </div>
     <div class="table-wrap">
       <table>
@@ -363,8 +357,7 @@ tr.completed .tname { text-decoration: line-through; }
         <tbody id="task-tbody"></tbody>
       </table>
       <div class="empty-state" id="empty-state" style="display:none;">
-        <div class="eicon">📭</div>
-        <p>暂无任务，从左侧表单添加第一条吧</p>
+        <div class="eicon">📭</div><p>暂无任务，从左侧表单添加第一条吧</p>
       </div>
     </div>
   </div>
@@ -380,45 +373,50 @@ tr.completed .tname { text-decoration: line-through; }
     </div>
     <div class="modal-body">
       <input type="hidden" id="e-id">
-      <div class="form-group">
-        <label>功能名称 <span class="req">*</span></label>
-        <input type="text" id="e-name">
-      </div>
+      <div class="form-group"><label>功能名称 <span class="req">*</span></label><input type="text" id="e-name"></div>
       <div class="form-group">
         <label>功能模块 <span class="req">*</span></label>
-        <select id="e-module">
-          <option value="">请选择</option>
-          <option value="产品">产品</option>
-          <option value="营销">营销</option>
-          <option value="数据">数据</option>
-          <option value="订单">订单</option>
-          <option value="分销">分销</option>
-          <option value="库存">库存</option>
-          <option value="WMS">WMS</option>
-          <option value="APP">APP</option>
-          <option value="公共">公共</option>
-        </select>
+        <div class="cs-wrap">
+          <div class="cs-display placeholder" id="cs-e-module-display" onclick="csToggle('e-module')">请选择</div>
+          <span class="cs-arrow">▾</span>
+          <input type="hidden" id="e-module">
+          <div class="cs-popup" id="cs-e-module-popup">
+            <div class="cs-option" onclick="csSelect('e-module','产品','产品')">产品<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','营销','营销')">营销<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','数据','数据')">数据<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','订单','订单')">订单<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','分销','分销')">分销<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','库存','库存')">库存<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','WMS','WMS')">WMS<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','APP','APP')">APP<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-module','公共','公共')">公共<span class="cs-check">✓</span></div>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label>优先级 <span class="req">*</span></label>
-        <select id="e-priority">
-          <option value="high">🔴 高</option>
-          <option value="medium">🟠 中</option>
-          <option value="low">🟢 低</option>
-        </select>
+        <div class="cs-wrap">
+          <div class="cs-display placeholder" id="cs-e-priority-display" onclick="csToggle('e-priority')">请选择</div>
+          <span class="cs-arrow">▾</span>
+          <input type="hidden" id="e-priority">
+          <div class="cs-popup" id="cs-e-priority-popup">
+            <div class="cs-option" onclick="csSelect('e-priority','high','高优先级')"><span class="cs-dot high"></span>高优先级<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-priority','medium','中优先级')"><span class="cs-dot medium"></span>中优先级<span class="cs-check">✓</span></div>
+            <div class="cs-option" onclick="csSelect('e-priority','low','低优先级')"><span class="cs-dot low"></span>低优先级<span class="cs-check">✓</span></div>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label>截止日期 <span class="req">*</span></label>
-        <div class="date-wrap"><input type="date" id="e-due"></div>
+        <div class="dp-wrap">
+          <span class="dp-icon">📅</span>
+          <div class="dp-display" id="dp-e-due-display" onclick="dpToggle('e-due')">选择日期</div>
+          <input type="hidden" id="e-due">
+          <div class="dp-popup" id="dp-e-due-popup"></div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>测试环境链接 <span class="opt">（选填）</span></label>
-        <input type="text" id="e-testlink" placeholder="https://...">
-      </div>
-      <div class="form-group">
-        <label>原型文档链接 <span class="opt">（选填）</span></label>
-        <input type="text" id="e-protolink" placeholder="https://...">
-      </div>
+      <div class="form-group"><label>测试环境链接 <span class="opt">（选填）</span></label><input type="text" id="e-testlink" placeholder="bsxx..."></div>
+      <div class="form-group"><label>原型文档名称 <span class="opt">（选填）</span></label><input type="text" id="e-protolink" placeholder="如：登录流程原型v2"></div>
       <div class="form-group">
         <label>是否需要培训</label>
         <div class="radio-group">
@@ -426,10 +424,7 @@ tr.completed .tname { text-decoration: line-through; }
           <label class="radio-opt"><input type="radio" name="etraining" value="no"> 否</label>
         </div>
       </div>
-      <div class="form-group" style="margin-bottom:0;">
-        <label>备注说明 <span class="opt">（选填）</span></label>
-        <textarea id="e-note" placeholder="补充说明..."></textarea>
-      </div>
+      <div class="form-group" style="margin-bottom:0;"><label>备注说明 <span class="opt">（选填）</span></label><textarea id="e-note"></textarea></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal()">取消</button>
@@ -441,98 +436,83 @@ tr.completed .tname { text-decoration: line-through; }
 <div class="toast" id="toast"></div>
 
 <script>
+const dpState = {};
 let tasks = JSON.parse(localStorage.getItem('docTasks') || '[]');
 const PM = { high:{label:'高',cls:'badge-high'}, medium:{label:'中',cls:'badge-medium'}, low:{label:'低',cls:'badge-low'} };
 
 function today() { return new Date().toISOString().split('T')[0]; }
 function tomorrow() { const d=new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0]; }
-
-function save() { localStorage.setItem('docTasks', JSON.stringify(tasks)); renderTable(); updateStats(); updateModuleFilter(); }
+function save() { localStorage.setItem('docTasks', JSON.stringify(tasks)); renderTable(); updateStats(); }
 
 function addTask() {
   const name=document.getElementById('f-name').value.trim();
-  const module=document.getElementById('f-module').value.trim();
+  const module=document.getElementById('f-module').value;
   const priority=document.getElementById('f-priority').value;
   const due=document.getElementById('f-due').value;
-  if (!name||!module||!priority||!due) { showToast('请填写必填字段','error'); return; }
+  if(!name||!module||!priority||!due){showToast('请填写必填字段','error');return;}
   const training=document.querySelector('input[name="training"]:checked')?.value||'no';
-  tasks.unshift({ id:Date.now(), name, module, priority, due,
+  tasks.unshift({id:Date.now(),name,module,priority,due,
     testLink:document.getElementById('f-testlink').value.trim(),
     protoLink:document.getElementById('f-protolink').value.trim(),
-    training, note:document.getElementById('f-note').value.trim(),
-    status:'pending', createdAt:new Date().toISOString() });
-  ['f-name','f-module','f-testlink','f-protolink','f-note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-priority').value='';
-  document.getElementById('f-due').value='';
+    training,note:document.getElementById('f-note').value.trim(),
+    status:'pending',createdAt:new Date().toISOString()});
+  // Reset form
+  document.getElementById('f-name').value='';
+  document.getElementById('f-testlink').value='';
+  document.getElementById('f-protolink').value='';
+  document.getElementById('f-note').value='';
   document.querySelector('input[name="training"][value="no"]').checked=true;
+  csReset('f-module'); csReset('f-priority'); dpReset('f-due');
   save(); showToast('✅ 任务已添加');
 }
 
-function toggleStatus(id) {
-  const t=tasks.find(t=>t.id===id);
-  if(t){ t.status=t.status==='pending'?'done':'pending'; save(); }
-}
+function toggleStatus(id){const t=tasks.find(t=>t.id===id);if(t){t.status=t.status==='pending'?'done':'pending';save();}}
+function deleteTask(id){if(!confirm('确认删除？'))return;tasks=tasks.filter(t=>t.id!==id);save();}
 
-function deleteTask(id) {
-  if(!confirm('确认删除这条任务吗？')) return;
-  tasks=tasks.filter(t=>t.id!==id); save();
-}
-
-// Edit
-function openEdit(id) {
-  const t=tasks.find(t=>t.id===id); if(!t) return;
+function openEdit(id){
+  const t=tasks.find(t=>t.id===id);if(!t)return;
   document.getElementById('e-id').value=t.id;
   document.getElementById('e-name').value=t.name;
-  document.getElementById('e-module').value=t.module;
-  document.getElementById('e-priority').value=t.priority;
-  document.getElementById('e-due').value=t.due;
   document.getElementById('e-testlink').value=t.testLink||'';
   document.getElementById('e-protolink').value=t.protoLink||'';
   document.getElementById('e-note').value=t.note||'';
   const tr=document.querySelector(`input[name="etraining"][value="${t.training||'no'}"]`);
-  if(tr) tr.checked=true;
+  if(tr)tr.checked=true;
+  csSetValue('e-module',t.module);
+  csSetValue('e-priority',t.priority);
+  dpSetValue('e-due',t.due);
   document.getElementById('edit-modal').classList.add('open');
 }
-
-function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
-
-function saveEdit() {
+function closeModal(){document.getElementById('edit-modal').classList.remove('open');}
+function saveEdit(){
   const id=parseInt(document.getElementById('e-id').value);
-  const t=tasks.find(t=>t.id===id); if(!t) return;
+  const t=tasks.find(t=>t.id===id);if(!t)return;
   const name=document.getElementById('e-name').value.trim();
-  const module=document.getElementById('e-module').value.trim();
+  const module=document.getElementById('e-module').value;
   const priority=document.getElementById('e-priority').value;
   const due=document.getElementById('e-due').value;
-  if(!name||!module||!priority||!due){ showToast('请填写必填字段','error'); return; }
-  t.name=name; t.module=module; t.priority=priority; t.due=due;
+  if(!name||!module||!priority||!due){showToast('请填写必填字段','error');return;}
+  t.name=name;t.module=module;t.priority=priority;t.due=due;
   t.testLink=document.getElementById('e-testlink').value.trim();
   t.protoLink=document.getElementById('e-protolink').value.trim();
   t.training=document.querySelector('input[name="etraining"]:checked')?.value||'no';
   t.note=document.getElementById('e-note').value.trim();
-  save(); closeModal(); showToast('✅ 修改已保存');
+  save();closeModal();showToast('✅ 修改已保存');
 }
 
-// Module filter
-function updateModuleFilter() {
-  const sel=document.getElementById('filter-module');
-  const cur=sel.value;
-  const fixed=['产品','营销','数据','订单','分销','库存','WMS','APP','公共'];
-  sel.innerHTML='<option value="">全部模块</option>'+fixed.map(m=>`<option value="${m}"${m===cur?' selected':''}>${m}</option>`).join('');
-}
-
-function renderTable() {
+function renderTable(){
   const search=document.getElementById('search-input').value.toLowerCase();
   const fp=document.getElementById('filter-priority').value;
   const fs=document.getElementById('filter-status').value;
   const fm=document.getElementById('filter-module').value;
-  const tod=today(), tom=tomorrow();
+  const tod=today(),tom=tomorrow();
   let filtered=tasks.filter(t=>{
     const ms=!search||t.name.toLowerCase().includes(search)||t.module.toLowerCase().includes(search);
     return ms&&(!fp||t.priority===fp)&&(!fs||t.status===fs)&&(!fm||t.module===fm);
   });
   const tbody=document.getElementById('task-tbody');
   const empty=document.getElementById('empty-state');
-  if(!filtered.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  if(!filtered.length){tbody.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
   tbody.innerHTML=filtered.map(t=>{
     const isOverdue=t.status==='pending'&&t.due<tod;
@@ -541,16 +521,16 @@ function renderTable() {
     const rowCls=t.status==='done'?'completed':(isOverdue||isToday)?'overdue':'';
     const p=PM[t.priority]||{label:t.priority,cls:''};
     let dateLabel=t.due;
-    if(isToday) dateLabel=`<span class="overdue-dot"></span>${t.due} 今天`;
-    else if(isOverdue) dateLabel=`<span class="overdue-dot"></span>${t.due} 已逾期`;
-    else if(isTom) dateLabel=`${t.due} 明天`;
+    if(isToday)dateLabel=`<span class="overdue-dot"></span>${t.due} 今天`;
+    else if(isOverdue)dateLabel=`<span class="overdue-dot"></span>${t.due} 逾期`;
+    else if(isTom)dateLabel=`${t.due} 明天`;
     return `<tr class="${rowCls}">
       <td class="tname" style="max-width:160px;word-break:break-all;">${t.name}</td>
       <td>${t.module}</td>
       <td><span class="badge ${p.cls}">${p.label}</span></td>
       <td style="white-space:nowrap;font-size:11px;">${dateLabel}</td>
-      <td>${t.testLink?`<a class="link-a" href="${t.testLink}" target="_blank">打开↗</a>`:'<span style="color:var(--text-muted)">—</span>'}</td>
-      <td>${t.protoLink?`<a class="link-a" href="${t.protoLink}" target="_blank">打开↗</a>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td>${t.testLink?`<a class="link-a" href="${t.testLink}" target="_blank">打开↗</a>`:'—'}</td>
+      <td style="font-size:11px;color:var(--text-secondary);">${t.protoLink||'—'}</td>
       <td>${t.training==='yes'?'✅':'—'}</td>
       <td style="max-width:120px;word-break:break-all;color:var(--text-secondary);font-size:11px;">${t.note||'—'}</td>
       <td><button class="status-btn ${t.status==='done'?'status-done':'status-pending'}" onclick="toggleStatus(${t.id})">${t.status==='done'?'✓ 已完成':'○ 未完成'}</button></td>
@@ -562,11 +542,10 @@ function renderTable() {
   }).join('');
 }
 
-function updateStats() {
+function updateStats(){
   const tod=today();
-  const total=tasks.length;
+  const total=tasks.length,done=tasks.filter(t=>t.status==='done').length;
   const pending=tasks.filter(t=>t.status==='pending').length;
-  const done=tasks.filter(t=>t.status==='done').length;
   const high=tasks.filter(t=>t.priority==='high'&&t.status==='pending').length;
   const todayDue=tasks.filter(t=>t.status==='pending'&&t.due===tod).length;
   const overdue=tasks.filter(t=>t.status==='pending'&&t.due<tod).length;
@@ -579,182 +558,205 @@ function updateStats() {
   document.getElementById('sc-done').textContent=done;
   document.getElementById('sc-high').textContent=high;
   document.getElementById('sc-today').textContent=todayDue;
-  // Progress
   const pct=total?Math.round(done/total*100):0;
   document.getElementById('prog-pct').textContent=pct+'%';
   document.getElementById('prog-fill').style.width=pct+'%';
-  // Priority bars
+  document.getElementById('prog-sublabel').textContent=total?`已完成 ${done} / ${total} 条任务`:'暂无任务';
   ['high','medium','low'].forEach(p=>{
     const all=tasks.filter(t=>t.priority===p);
-    const doneP=all.filter(t=>t.status==='done');
-    const pct2=all.length?Math.round(doneP.length/all.length*100):0;
+    const dp=all.filter(t=>t.status==='done');
+    const pct2=all.length?Math.round(dp.length/all.length*100):0;
     const id=p==='medium'?'med':p;
     document.getElementById(`pb-${id}`).style.width=pct2+'%';
-    document.getElementById(`pb-${id}-txt`).textContent=`${doneP.length}/${all.length}`;
+    document.getElementById(`pb-${id}-txt`).textContent=`${dp.length}/${all.length}`;
   });
 }
 
-// Webhook
-function saveWebhook() {
-  const url=document.getElementById('webhook-url').value.trim();
-  if(!url){ showToast('请输入 Webhook 地址','error'); return; }
-  localStorage.setItem('webhookUrl',url); showToast('✅ Webhook 已保存');
-}
-function getWebhook(){ return localStorage.getItem('webhookUrl')||''; }
-async function sendWx(content) {
-  const url=getWebhook();
-  if(!url){ showPushStatus('❌ 请先保存 Webhook 地址','error'); return; }
-  try {
-    await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgtype:'markdown',markdown:{content}}),mode:'no-cors'});
-    showPushStatus('✅ 发送成功，请查看企微群','success');
-  } catch(e){ showPushStatus('❌ 发送失败，请检查 Webhook 地址','error'); }
-}
-function fmtLine(t){ const p=PM[t.priority]?.label||t.priority; return `> **${t.name}** ｜ ${t.module} ｜ 优先级：${p} ｜ 截止：${t.due}`; }
-function pushToday(){ const l=tasks.filter(t=>t.status==='pending'&&t.due===today()); if(!l.length){showPushStatus('暂无今日到期任务','success');return;} sendWx(`## 📋 今日待完成文档任务\n共 **${l.length}** 条\n\n`+l.map(fmtLine).join('\n')); }
-function pushTomorrow(){ const l=tasks.filter(t=>t.status==='pending'&&t.due===tomorrow()); if(!l.length){showPushStatus('暂无明日到期任务','success');return;} sendWx(`## ⚠️ 明日到期提醒\n共 **${l.length}** 条\n\n`+l.map(fmtLine).join('\n')); }
-function pushAll(){ const l=tasks.filter(t=>t.status==='pending'); if(!l.length){showPushStatus('🎉 所有任务已完成！','success');return;} sendWx(`## 📊 全部未完成任务\n共 **${l.length}** 条\n\n`+l.map(fmtLine).join('\n')); }
-function showPushStatus(msg,type){ const el=document.getElementById('push-status'); el.textContent=msg; el.className=`push-status ${type}`; setTimeout(()=>el.className='push-status',4000); }
-
-// Reminder
-function saveReminderTime() {
-  const t=document.getElementById('reminder-time').value;
-  localStorage.setItem('reminderTime',t); showToast(`✅ 提醒时间已设为 ${t}`);
-}
-function testNotification() {
-  if(Notification.permission==='granted'){
-    new Notification('🔔 提醒测试', {body:'如果你看到这条通知，说明提醒功能正常！'});
-    showToast('测试通知已发送，请查看桌面右下角');
-  } else if(Notification.permission==='default'){
-    Notification.requestPermission().then(p=>{ if(p==='granted') testNotification(); });
-  } else { showToast('请在浏览器设置中开启通知权限','error'); }
-}
-function checkDailyNotifications() {
-  const tod=today();
-  if(localStorage.getItem('lastNotified')===tod) return;
-  const rTime=localStorage.getItem('reminderTime')||'09:00';
-  const [rh,rm]=rTime.split(':').map(Number);
-  const now=new Date();
-  if(now.getHours()>=rh||(now.getHours()===rh&&now.getMinutes()>=rm)){
-    localStorage.setItem('lastNotified',tod);
-    if(Notification.permission==='granted'){
-      const todList=tasks.filter(t=>t.status==='pending'&&t.due===tod);
-      const tomList=tasks.filter(t=>t.status==='pending'&&t.due===tomorrow());
-      setTimeout(()=>{
-        if(todList.length) new Notification(`📋 今日待完成（${todList.length}条）`,{body:todList.map(t=>t.name).join('、')});
-        if(tomList.length) setTimeout(()=>new Notification(`⚠️ 明日到期提醒（${tomList.length}条）`,{body:tomList.map(t=>t.name).join('、')}),2000);
-      },1000);
-    }
+// ── Custom Select ──
+function csToggle(id){
+  const popup=document.getElementById(`cs-${id}-popup`);
+  const display=document.getElementById(`cs-${id}-display`);
+  const isOpen=popup.classList.contains('open');
+  closeAll();
+  if(!isOpen){
+    const rect=display.getBoundingClientRect();
+    popup.style.top=(rect.bottom+window.scrollY+6)+'px';
+    popup.style.left=rect.left+'px';
+    popup.style.minWidth=Math.max(rect.width,120)+'px';
+    popup.classList.add('open');
+    display.classList.add('open');
   }
 }
+function csSelect(id,val,label){
+  document.getElementById(id).value=val;
+  const d=document.getElementById(`cs-${id}-display`);
+  d.innerHTML=label; d.classList.remove('placeholder','open');
+  document.querySelectorAll(`#cs-${id}-popup .cs-option`).forEach(o=>{
+    o.classList.toggle('selected',o.getAttribute('onclick').includes(`'${val}'`));
+  });
+  document.getElementById(`cs-${id}-popup`).classList.remove('open');
+}
+function csFilter(csId,inputId,val,label){
+  document.getElementById(inputId).value=val;
+  const d=document.getElementById(`cs-${csId}-display`);
+  d.textContent=label;
+  d.classList.toggle('active',val!=='');
+  d.classList.remove('open');
+  document.querySelectorAll(`#cs-${csId}-popup .cs-option`).forEach(o=>{
+    o.classList.toggle('selected',o.getAttribute('onclick').includes(`'${val}'`));
+  });
+  document.getElementById(`cs-${csId}-popup`).classList.remove('open');
+  renderTable();
+}
+function csSetValue(id,val){
+  if(!val)return;
+  const labels={产品:'产品',营销:'营销',数据:'数据',订单:'订单',分销:'分销',库存:'库存',WMS:'WMS',APP:'APP',公共:'公共',high:'高优先级',medium:'中优先级',low:'低优先级'};
+  document.getElementById(id).value=val;
+  const d=document.getElementById(`cs-${id}-display`);
+  if(d){d.textContent=labels[val]||val;d.classList.remove('placeholder');}
+  document.querySelectorAll(`#cs-${id}-popup .cs-option`).forEach(o=>{
+    o.classList.toggle('selected',o.getAttribute('onclick').includes(`'${val}'`));
+  });
+}
+function csReset(id){
+  document.getElementById(id).value='';
+  const d=document.getElementById(`cs-${id}-display`);
+  if(d){d.textContent='请选择';d.classList.add('placeholder');}
+  document.querySelectorAll(`#cs-${id}-popup .cs-option`).forEach(o=>o.classList.remove('selected'));
+}
+
+// ── Datepicker ──
+function dpToggle(id){
+  const popup=document.getElementById(`dp-${id}-popup`);
+  const display=document.getElementById(`dp-${id}-display`);
+  const isOpen=popup.classList.contains('open');
+  closeAll();
+  if(!isOpen){
+    const val=document.getElementById(id).value;
+    const now=val?new Date(val+'T00:00:00'):new Date();
+    dpState[id]={year:now.getFullYear(),month:now.getMonth(),selected:val||null};
+    dpRender(id);
+    const rect=display.getBoundingClientRect();
+    popup.style.top=(rect.bottom+window.scrollY+6)+'px';
+    popup.style.left=rect.left+'px';
+    popup.classList.add('open');
+    display.classList.add('open');
+  }
+}
+function dpRender(id){
+  const{year,month,selected}=dpState[id];
+  const popup=document.getElementById(`dp-${id}-popup`);
+  const tod=today();
+  const mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  const first=new Date(year,month,1).getDay();
+  const days=new Date(year,month+1,0).getDate();
+  let html=`<div class="dp-nav">
+    <button class="dp-nav-btn" onclick="dpPrev('${id}')">‹</button>
+    <span class="dp-month-label">${year}年 ${mn[month]}</span>
+    <button class="dp-nav-btn" onclick="dpNext('${id}')">›</button>
+  </div>
+  <div class="dp-weekdays"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+  <div class="dp-days">`;
+  for(let i=0;i<first;i++)html+=`<div class="dp-day dp-empty"></div>`;
+  for(let d=1;d<=days;d++){
+    const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    let cls='dp-day';
+    if(ds===tod)cls+=' dp-today';
+    if(ds===selected)cls+=' dp-selected';
+    html+=`<div class="${cls}" onclick="dpPick('${id}','${ds}')">${d}</div>`;
+  }
+  html+=`</div><div class="dp-footer">
+    <button class="dp-clear-btn" onclick="dpReset('${id}')">清除</button>
+    <button class="dp-today-btn" onclick="dpPick('${id}','${tod}')">今天</button>
+  </div>`;
+  popup.innerHTML=html;
+}
+function dpPrev(id){dpState[id].month--;if(dpState[id].month<0){dpState[id].month=11;dpState[id].year--;}dpRender(id);}
+function dpNext(id){dpState[id].month++;if(dpState[id].month>11){dpState[id].month=0;dpState[id].year++;}dpRender(id);}
+function dpPick(id,val){
+  dpState[id].selected=val;
+  document.getElementById(id).value=val;
+  const[y,m,d]=val.split('-');
+  const disp=document.getElementById(`dp-${id}-display`);
+  disp.textContent=`${y}年${parseInt(m)}月${parseInt(d)}日`;
+  disp.classList.add('has-value'); disp.classList.remove('open');
+  dpRender(id);
+  setTimeout(()=>document.getElementById(`dp-${id}-popup`).classList.remove('open'),150);
+}
+function dpReset(id){
+  dpState[id]&&(dpState[id].selected=null);
+  document.getElementById(id).value='';
+  const disp=document.getElementById(`dp-${id}-display`);
+  disp.textContent='选择日期'; disp.classList.remove('has-value','open');
+  if(dpState[id])dpRender(id);
+  document.getElementById(`dp-${id}-popup`).classList.remove('open');
+}
+function dpSetValue(id,val){
+  if(!val){dpReset(id);return;}
+  document.getElementById(id).value=val;
+  const[y,m,d]=val.split('-');
+  const disp=document.getElementById(`dp-${id}-display`);
+  disp.textContent=`${y}年${parseInt(m)}月${parseInt(d)}日`;
+  disp.classList.add('has-value');
+}
+
+function closeAll(){
+  document.querySelectorAll('.cs-popup.open').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.cs-display.open').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.dp-popup.open').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.dp-display.open').forEach(d=>d.classList.remove('open'));
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.cs-wrap')&&!e.target.closest('.dp-wrap'))closeAll();
+});
+document.getElementById('edit-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// Sync to JSONBin
+const JSONBIN_URL='https://api.jsonbin.io/v3/b/6a30b79bda38895dfec73c44/latest';
+const JSONBIN_KEY='$2a$10$af3MA0oGo3I0I8jdOTOtjOHJpVpdb9bLywFosmdWfLY5ywWrUhYHC';
+const JSONBIN_BIN_KEY='jsonbinBinId';
+async function syncToCloud(){
+  const btn=document.querySelector('button[onclick="syncToCloud()"]');
+  btn.disabled=true;btn.textContent='同步中...';
+  showSyncStatus('⏳ 正在同步...','success');
+  const payload=tasks.map(t=>({
+    name:t.name||'',module:t.module||'',
+    priority:PM[t.priority]?.label||t.priority||'',
+    due:t.due||'',testLink:t.testLink||'',protoLink:t.protoLink||'',
+    training:t.training==='yes'?'是':'否',
+    status:t.status==='done'?'已完成':'未完成',note:t.note||''
+  }));
+  try{
+    const existingBinId=localStorage.getItem(JSONBIN_BIN_KEY);
+    if(existingBinId){
+      const res=await fetch(`https://api.jsonbin.io/v3/b/${existingBinId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify({tasks:payload,updatedAt:new Date().toISOString()})});
+      if(res.ok){showSyncStatus(`✅ 同步成功！共 ${payload.length} 条任务`,'success');showToast('✅ 云端同步成功');}
+      else throw new Error('Update failed');
+    }else{
+      const res=await fetch('https://api.jsonbin.io/v3/b',{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY,'X-Bin-Name':'DocTrack-Tasks','X-Bin-Private':'false'},body:JSON.stringify({tasks:payload,updatedAt:new Date().toISOString()})});
+      const data=await res.json();
+      if(res.ok){localStorage.setItem(JSONBIN_BIN_KEY,data.metadata.id);showSyncStatus(`✅ 首次同步成功！`,success);showToast('✅ 云端同步成功');}
+      else throw new Error('Create failed');
+    }
+  }catch(e){showSyncStatus(`❌ 同步失败：${e.message}`,'error');}
+  btn.disabled=false;btn.textContent='☁️ 同步到云端';
+}
+function showSyncStatus(msg,type){const el=document.getElementById('sync-status');el.textContent=msg;el.className=`push-status ${type}`;setTimeout(()=>el.className='push-status',6000);}
 
 // Export
-function exportCSV() {
-  if(!tasks.length){ showToast('暂无数据','error'); return; }
+function exportCSV(){
+  if(!tasks.length){showToast('暂无数据','error');return;}
   const h=['功能名称','功能模块','优先级','截止日期','测试环境','原型文档','是否培训','备注','状态'];
   const rows=tasks.map(t=>[t.name,t.module,PM[t.priority]?.label||t.priority,t.due,t.testLink,t.protoLink,t.training==='yes'?'是':'否',t.note,t.status==='done'?'已完成':'未完成'].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(','));
   const csv='\uFEFF'+[h.join(','),...rows].join('\n');
-  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download=`文档任务_${today()}.csv`; a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`文档任务_${today()}.csv`;a.click();
 }
 
-// Toast
-function showToast(msg,type='success'){ const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`; setTimeout(()=>t.className='toast',3000); }
-
-// Close modal on overlay click
-document.getElementById('edit-modal').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
-
-// Sync to JSONBin
-const JSONBIN_API_KEY = '$2a$10$af3MA0oGo3I0I8jdOTOtjOHJpVpdb9bLywFosmdWfLY5ywWrUhYHC';
-const JSONBIN_BIN_KEY = 'jsonbinBinId';
-
-async function syncToCloud() {
-  const btn = document.querySelector('button[onclick="syncToCloud()"]');
-  btn.disabled = true; btn.textContent = '同步中...';
-  showSyncStatus('⏳ 正在同步，请稍候...', 'success');
-
-  const payload = tasks.map(t => ({
-    name: t.name || '',
-    module: t.module || '',
-    priority: PM[t.priority]?.label || t.priority || '',
-    due: t.due || '',
-    testLink: t.testLink || '',
-    protoLink: t.protoLink || '',
-    training: t.training === 'yes' ? '是' : '否',
-    status: t.status === 'done' ? '已完成' : '未完成',
-    note: t.note || ''
-  }));
-
-  try {
-    const existingBinId = localStorage.getItem(JSONBIN_BIN_KEY);
-
-    if (existingBinId) {
-      // Update existing bin
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${existingBinId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_API_KEY
-        },
-        body: JSON.stringify({ tasks: payload, updatedAt: new Date().toISOString() })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        showSyncStatus(`✅ 云端同步成功！共 ${payload.length} 条任务，轻联今天会自动推送`, 'success');
-        showToast('✅ 云端同步成功');
-      } else {
-        throw new Error(data.message || 'Update failed');
-      }
-    } else {
-      // Create new bin
-      const res = await fetch('https://api.jsonbin.io/v3/b', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_API_KEY,
-          'X-Bin-Name': 'DocTrack-Tasks',
-          'X-Bin-Private': 'false'
-        },
-        body: JSON.stringify({ tasks: payload, updatedAt: new Date().toISOString() })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        const binId = data.metadata.id;
-        localStorage.setItem(JSONBIN_BIN_KEY, binId);
-        localStorage.setItem('jsonbinBinUrl', `https://api.jsonbin.io/v3/b/${binId}/latest`);
-        showSyncStatus(`✅ 首次同步成功！Bin ID: ${binId}（已自动保存）`, 'success');
-        showToast('✅ 云端初始化并同步成功');
-        // Show bin URL for Qinglian setup
-        setTimeout(() => {
-          alert(`✅ 云端同步成功！
-
-请复制以下地址，用于腾讯轻联配置：
-
-https://api.jsonbin.io/v3/b/${binId}/latest
-
-（这个地址已保存，下次同步不会重复弹窗）`);
-        }, 500);
-      } else {
-        throw new Error(data.message || 'Create failed');
-      }
-    }
-  } catch(e) {
-    console.error(e);
-    showSyncStatus(`❌ 同步失败：${e.message}`, 'error');
-  }
-  btn.disabled = false; btn.textContent = '☁️ 立即同步到云端';
-}
-
-function showSyncStatus(msg, type) {
-  const el = document.getElementById('sync-status');
-  el.textContent = msg;
-  el.className = `push-status ${type}`;
-  setTimeout(() => el.className = 'push-status', 8000);
-}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3000);}
 
 // Init
-const sw=localStorage.getItem('webhookUrl'); if(sw) document.getElementById('webhook-url').value=sw;
-const st=localStorage.getItem('reminderTime'); if(st) document.getElementById('reminder-time').value=st;
-if('Notification' in window && Notification.permission==='default') Notification.requestPermission();
-updateStats(); renderTable(); updateModuleFilter(); checkDailyNotifications();
+const savedBinId=localStorage.getItem(JSONBIN_BIN_KEY);
+updateStats();renderTable();
 </script>
 </body>
 </html>
