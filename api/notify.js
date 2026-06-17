@@ -26,33 +26,41 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: '所有任务已完成，无需推送' });
     }
 
-    let msg = `📋 DocTrack 每日任务提醒\n`;
-    msg += `━━━━━━━━━━━━━━\n`;
-    msg += `📅 今天：${todayStr}\n\n`;
+    const priLabel = p => p === '高' ? '🔴高' : p === '中' ? '🟠中' : '🟢低';
+
+    let msg = `📋 **DocTrack 每日任务提醒！！**\n`;
+    msg += `今天：${todayStr}\n\n`;
 
     if (overdueTasks.length > 0) {
-      msg += `🔴 已逾期（${overdueTasks.length}条）\n`;
-      overdueTasks.forEach(t => { msg += `• ${t.name}｜${t.module}｜截止${t.due}\n`; });
-      msg += '\n';
-    }
-    if (todayTasks.length > 0) {
-      msg += `🟠 今日到期（${todayTasks.length}条）\n`;
-      todayTasks.forEach(t => { msg += `• ${t.name}｜${t.module}\n`; });
-      msg += '\n';
-    }
-    if (tomorrowTasks.length > 0) {
-      msg += `🟡 明日到期（${tomorrowTasks.length}条）\n`;
-      tomorrowTasks.forEach(t => { msg += `• ${t.name}｜${t.module}\n`; });
+      msg += `⚠️ **已逾期：${overdueTasks.length}条**\n`;
+      overdueTasks.forEach(t => {
+        msg += `👉 ${t.name}　${priLabel(t.priority)}\n`;
+      });
       msg += '\n';
     }
 
-    msg += `━━━━━━━━━━━━━━\n`;
-    msg += `共 ${pending.length} 条未完成，加油！💪`;
+    if (todayTasks.length > 0) {
+      msg += `🔥 **今日到期：${todayTasks.length}条**\n`;
+      todayTasks.forEach(t => {
+        msg += `👉 ${t.name}　${priLabel(t.priority)}\n`;
+      });
+      msg += '\n';
+    }
+
+    if (tomorrowTasks.length > 0) {
+      msg += `📅 **明日到期：${tomorrowTasks.length}条**\n`;
+      tomorrowTasks.forEach(t => {
+        msg += `👉 ${t.name}　${priLabel(t.priority)}\n`;
+      });
+      msg += '\n';
+    }
+
+    msg += `今日共 **${pending.length}** 条未完成，要加油了小菲！💪`;
 
     const wxRes = await fetch(WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ msgtype: 'text', text: { content: msg } })
+      body: JSON.stringify({ msgtype: 'markdown', markdown: { content: msg } })
     });
     const wxData = await wxRes.json();
     return res.status(200).json({ success: true, pending: pending.length, wx: wxData });
