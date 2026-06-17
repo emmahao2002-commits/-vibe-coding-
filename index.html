@@ -711,36 +711,78 @@ document.addEventListener('click',e=>{
 });
 document.getElementById('edit-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-// Sync to JSONBin
-const JSONBIN_URL='https://api.jsonbin.io/v3/b/6a30b79bda38895dfec73c44/latest';
-const JSONBIN_KEY='$2a$10$af3MA0oGo3I0I8jdOTOtjOHJpVpdb9bLywFosmdWfLY5ywWrUhYHC';
-const JSONBIN_BIN_KEY='jsonbinBinId';
+// ── Cloud Sync (JSONBin) — Fixed bin shared across all devices ──
+const JSONBIN_BIN_ID = '6a30b79bda38895dfec73c44';
+const JSONBIN_KEY = '$2a$10$af3MA0oGo3I0I8jdOTOtjOHJpVpdb9bLywFosmdWfLY5ywWrUhYHC';
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+
+// Convert internal task object -> cloud format
+function taskToCloud(t) {
+  return {
+    id: t.id, name: t.name||'', module: t.module||'',
+    priority: t.priority||'', due: t.due||'',
+    testLink: t.testLink||'', protoLink: t.protoLink||'',
+    training: t.training||'no', note: t.note||'',
+    status: t.status||'pending', createdAt: t.createdAt||new Date().toISOString()
+  };
+}
+
 async function syncToCloud(){
   const btn=document.querySelector('button[onclick="syncToCloud()"]');
   btn.disabled=true;btn.textContent='同步中...';
   showSyncStatus('⏳ 正在同步...','success');
-  const payload=tasks.map(t=>({
-    name:t.name||'',module:t.module||'',
-    priority:PM[t.priority]?.label||t.priority||'',
-    due:t.due||'',testLink:t.testLink||'',protoLink:t.protoLink||'',
-    training:t.training==='yes'?'是':'否',
-    status:t.status==='done'?'已完成':'未完成',note:t.note||''
-  }));
+  const payload=tasks.map(taskToCloud);
   try{
-    const existingBinId=localStorage.getItem(JSONBIN_BIN_KEY);
-    if(existingBinId){
-      const res=await fetch(`https://api.jsonbin.io/v3/b/${existingBinId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify({tasks:payload,updatedAt:new Date().toISOString()})});
-      if(res.ok){showSyncStatus(`✅ 同步成功！共 ${payload.length} 条任务`,'success');showToast('✅ 云端同步成功');}
-      else throw new Error('Update failed');
-    }else{
-      const res=await fetch('https://api.jsonbin.io/v3/b',{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY,'X-Bin-Name':'DocTrack-Tasks','X-Bin-Private':'false'},body:JSON.stringify({tasks:payload,updatedAt:new Date().toISOString()})});
-      const data=await res.json();
-      if(res.ok){localStorage.setItem(JSONBIN_BIN_KEY,data.metadata.id);showSyncStatus(`✅ 首次同步成功！`,success);showToast('✅ 云端同步成功');}
-      else throw new Error('Create failed');
+    const res=await fetch(JSONBIN_URL,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
+      body:JSON.stringify({tasks:payload,updatedAt:new Date().toISOString()})
+    });
+    if(res.ok){
+      showSyncStatus(`✅ 同步成功！共 ${payload.length} 条任务，所有设备已更新`,'success');
+      showToast('✅ 云端同步成功');
+    } else {
+      throw new Error('云端写入失败');
     }
-  }catch(e){showSyncStatus(`❌ 同步失败：${e.message}`,'error');}
+  }catch(e){
+    showSyncStatus(`❌ 同步失败：${e.message}`,'error');
+  }
   btn.disabled=false;btn.textContent='☁️ 同步到云端';
 }
+
+// Map old Chinese-label cloud data back to internal keys (for backward compatibility)
+const PRI_REVERSE = {'高':'high','中':'medium','低':'low','high':'high','medium':'medium','low':'low'};
+const STATUS_REVERSE = {'已完成':'done','未完成':'pending','done':'done','pending':'pending'};
+const TRAINING_REVERSE = {'是':'yes','否':'no','yes':'yes','no':'no'};
+
+async function loadFromCloud(showLoadingToast){
+  try{
+    const res=await fetch(`${JSONBIN_URL}/latest`,{headers:{'X-Master-Key':JSONBIN_KEY}});
+    if(!res.ok) throw new Error('读取云端失败');
+    const data=await res.json();
+    const cloudTasks=data.record?.tasks||[];
+    if(cloudTasks.length===0 && tasks.length>0){
+      // Cloud is empty but we have local data — don't wipe local, likely first-time setup
+      return;
+    }
+    tasks = cloudTasks.map(t=>({
+      id: t.id||Date.now()+Math.random(),
+      name: t.name||'', module: t.module||'',
+      priority: PRI_REVERSE[t.priority]||t.priority||'',
+      due: t.due||'', testLink: t.testLink||'', protoLink: t.protoLink||'',
+      training: TRAINING_REVERSE[t.training]||t.training||'no',
+      note: t.note||'',
+      status: STATUS_REVERSE[t.status]||t.status||'pending',
+      createdAt: t.createdAt||new Date().toISOString()
+    }));
+    localStorage.setItem('docTasks', JSON.stringify(tasks));
+    renderTable(); updateStats();
+    if(showLoadingToast) showToast('✅ 已加载云端最新数据');
+  }catch(e){
+    console.error('加载云端数据失败:', e);
+  }
+}
+
 function showSyncStatus(msg,type){const el=document.getElementById('sync-status');el.textContent=msg;el.className=`push-status ${type}`;setTimeout(()=>el.className='push-status',6000);}
 
 // Export
@@ -755,8 +797,8 @@ function exportCSV(){
 function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3000);}
 
 // Init
-const savedBinId=localStorage.getItem(JSONBIN_BIN_KEY);
 updateStats();renderTable();
+loadFromCloud(false); // Pull latest cloud data on page load (silently)
 </script>
 </body>
 </html>
