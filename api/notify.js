@@ -55,7 +55,10 @@ export default async function handler(req, res) {
       msg += '\n';
     }
 
-    msg += `今日共 **${pending.length}** 条未完成，要加油了小菲！💪`;
+    msg += `今日共 **${todayTasks.length}** 条未完成\n`;
+    msg += `全部 **${pending.length}** 条待完成\n\n`;
+    msg += `要加油了小菲！💪\n\n`;
+    msg += `👉 [点击进入 DocTrack](https://vibe-coding-cyan-eight.vercel.app)`;
 
     const wxRes = await fetch(WEBHOOK, {
       method: 'POST',
