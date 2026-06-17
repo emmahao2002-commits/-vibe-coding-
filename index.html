@@ -93,7 +93,7 @@ textarea { resize: vertical; min-height: 64px; }
 .cs-display.open { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,.12); }
 .cs-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 11px; pointer-events: none; transition: transform .2s; }
 .cs-display.open ~ .cs-arrow { transform: translateY(-50%) rotate(180deg); color: var(--accent); }
-.cs-popup { position: fixed; z-index: 9999; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 36px rgba(0,0,0,.13); overflow: hidden; display: none; padding: 4px 0; min-width: 120px; }
+.cs-popup { position: absolute; top: calc(100% + 6px); left: 0; z-index: 9999; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 36px rgba(0,0,0,.13); overflow: hidden; display: none; padding: 4px 0; min-width: 120px; max-width: 90vw; }
 .cs-popup.open { display: block; animation: popIn .12s ease; }
 @keyframes popIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
 .cs-option { padding: 9px 14px; font-size: 13px; cursor: pointer; color: var(--text-primary); transition: background .1s; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
@@ -124,7 +124,7 @@ textarea { resize: vertical; min-height: 64px; }
 .dp-display:hover { border-color: #B8C5FB; }
 .dp-display.open { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,110,247,.12); }
 .dp-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; }
-.dp-popup { position: fixed; z-index: 9999; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.12); width: 268px; padding: 16px; display: none; }
+.dp-popup { position: absolute; top: calc(100% + 6px); left: 0; z-index: 9999; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.12); width: 268px; max-width: 90vw; padding: 16px; display: none; }
 .dp-popup.open { display: block; animation: popIn .12s ease; }
 .dp-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .dp-nav-btn { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: background .1s; }
@@ -579,10 +579,7 @@ function csToggle(id){
   const isOpen=popup.classList.contains('open');
   closeAll();
   if(!isOpen){
-    const rect=display.getBoundingClientRect();
-    popup.style.top=(rect.bottom+window.scrollY+6)+'px';
-    popup.style.left=rect.left+'px';
-    popup.style.minWidth=Math.max(rect.width,120)+'px';
+    popup.style.minWidth=Math.max(display.offsetWidth,120)+'px';
     popup.classList.add('open');
     display.classList.add('open');
   }
@@ -636,9 +633,6 @@ function dpToggle(id){
     const now=val?new Date(val+'T00:00:00'):new Date();
     dpState[id]={year:now.getFullYear(),month:now.getMonth(),selected:val||null};
     dpRender(id);
-    const rect=display.getBoundingClientRect();
-    popup.style.top=(rect.bottom+window.scrollY+6)+'px';
-    popup.style.left=rect.left+'px';
     popup.classList.add('open');
     display.classList.add('open');
   }
