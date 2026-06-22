@@ -187,10 +187,10 @@ tr.completed .tname { text-decoration: line-through; }
 }
 
 /* Note cell truncation */
-.note-cell { max-width: 140px; }
+.note-cell { max-width: 140px; min-width: 80px; word-break: break-all; }
 .note-short { display: inline; }
-.note-full { display: none; }
-.note-toggle { color: var(--accent); font-size: 11px; cursor: pointer; white-space: nowrap; margin-left: 2px; }
+.note-full { display: none; white-space: normal; word-break: break-all; }
+.note-toggle { color: var(--accent); font-size: 11px; cursor: pointer; white-space: nowrap; margin-left: 2px; display: inline; }
 .note-toggle:hover { text-decoration: underline; }
 .note-cell.expanded .note-short { display: none; }
 .note-cell.expanded .note-full { display: inline; }
@@ -668,9 +668,9 @@ function dpRender(id){
   const first=new Date(year,month,1).getDay();
   const days=new Date(year,month+1,0).getDate();
   let html=`<div class="dp-nav">
-    <button class="dp-nav-btn" onclick="dpPrev('${id}')">‹</button>
+    <button class="dp-nav-btn" onclick="dpPrev('${id}',event)">‹</button>
     <span class="dp-month-label">${year}年 ${mn[month]}</span>
-    <button class="dp-nav-btn" onclick="dpNext('${id}')">›</button>
+    <button class="dp-nav-btn" onclick="dpNext('${id}',event)">›</button>
   </div>
   <div class="dp-weekdays"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
   <div class="dp-days">`;
@@ -680,17 +680,17 @@ function dpRender(id){
     let cls='dp-day';
     if(ds===tod)cls+=' dp-today';
     if(ds===selected)cls+=' dp-selected';
-    html+=`<div class="${cls}" onclick="dpPick('${id}','${ds}')">${d}</div>`;
+    html+=`<div class="${cls}" onclick="dpPick('${id}','${ds}',event)">${d}</div>`;
   }
   html+=`</div><div class="dp-footer">
-    <button class="dp-clear-btn" onclick="dpReset('${id}')">清除</button>
-    <button class="dp-today-btn" onclick="dpPick('${id}','${tod}')">今天</button>
+    <button class="dp-clear-btn" onclick="dpReset('${id}',event)">清除</button>
+    <button class="dp-today-btn" onclick="dpPick('${id}','${tod}',event)">今天</button>
   </div>`;
   popup.innerHTML=html;
 }
-function dpPrev(id){dpState[id].month--;if(dpState[id].month<0){dpState[id].month=11;dpState[id].year--;}dpRender(id);}
-function dpNext(id){dpState[id].month++;if(dpState[id].month>11){dpState[id].month=0;dpState[id].year++;}dpRender(id);}
-function dpPick(id,val){
+function dpPrev(id,e){if(e)e.stopPropagation();dpState[id].month--;if(dpState[id].month<0){dpState[id].month=11;dpState[id].year--;}dpRender(id);}
+function dpNext(id,e){if(e)e.stopPropagation();dpState[id].month++;if(dpState[id].month>11){dpState[id].month=0;dpState[id].year++;}dpRender(id);}
+function dpPick(id,val,e){if(e)e.stopPropagation();
   dpState[id].selected=val;
   document.getElementById(id).value=val;
   const[y,m,d]=val.split('-');
@@ -700,7 +700,7 @@ function dpPick(id,val){
   dpRender(id);
   setTimeout(()=>document.getElementById(`dp-${id}-popup`).classList.remove('open'),150);
 }
-function dpReset(id){
+function dpReset(id,e){if(e)e.stopPropagation();
   dpState[id]&&(dpState[id].selected=null);
   document.getElementById(id).value='';
   const disp=document.getElementById(`dp-${id}-display`);
