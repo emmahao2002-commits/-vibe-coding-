@@ -194,6 +194,12 @@ tr.completed .tname { text-decoration: line-through; }
 .note-toggle:hover { text-decoration: underline; }
 .note-cell.expanded .note-short { display: none; }
 .note-cell.expanded .note-full { display: inline; }
+
+.btn-icon { width: 30px; height: 30px; border-radius: 7px; border: none; cursor: pointer; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; transition: background .15s; flex-shrink: 0; }
+.edit-icon { background: var(--accent-light); }
+.edit-icon:hover { background: #DDE5FD; }
+.del-icon { background: var(--red-light); }
+.del-icon:hover { background: #FECACA; }
 </style>
 </head>
 <body>
@@ -552,8 +558,8 @@ function renderTable(){
       </td>
       <td><button class="status-btn ${t.status==='done'?'status-done':'status-pending'}" onclick="toggleStatus(${t.id})">${t.status==='done'?'✓ 已完成':'○ 未完成'}</button></td>
       <td><div class="ops">
-        <button class="btn btn-edit btn-sm" onclick="openEdit(${t.id})">编辑</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteTask(${t.id})">删除</button>
+        <button class="btn-icon edit-icon" onclick="openEdit(${t.id})" title="编辑">✏️</button>
+        <button class="btn-icon del-icon" onclick="deleteTask(${t.id})" title="删除">🗑️</button>
       </div></td>
     </tr>`;
   }).join('');
