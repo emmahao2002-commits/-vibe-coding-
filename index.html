@@ -155,12 +155,12 @@ tr:last-child td { border-bottom: none; }
 tr.overdue td { background: #FFF5F5; }
 tr.completed td { color: var(--text-muted); }
 tr.completed .tname { text-decoration: line-through; }
-.status-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer; border: none; font-family: inherit; transition: all .15s; }
+.status-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer; border: none; font-family: inherit; transition: all .15s; white-space: nowrap; }
 .status-pending { background: #FEF3C7; color: #92400E; } .status-pending:hover { background: #FDE68A; }
 .status-done { background: var(--green-light); color: #15803D; } .status-done:hover { background: #BBFBD0; }
 .link-a { color: var(--accent); text-decoration: none; font-size: 11px; } .link-a:hover { text-decoration: underline; }
 .overdue-dot { display: inline-block; width: 5px; height: 5px; background: var(--red); border-radius: 50%; margin-right: 3px; vertical-align: middle; }
-.ops { display: flex; gap: 4px; }
+.ops { display: flex; gap: 4px; flex-wrap: nowrap; }
 .empty-state { text-align: center; padding: 44px 20px; color: var(--text-muted); }
 .empty-state .eicon { font-size: 30px; margin-bottom: 8px; }
 
@@ -185,6 +185,15 @@ tr.completed .tname { text-decoration: line-through; }
   .main { grid-template-columns: 1fr; padding: 14px; }
   .stats-bar { grid-template-columns: repeat(2,1fr); }
 }
+
+/* Note cell truncation */
+.note-cell { max-width: 140px; }
+.note-short { display: inline; }
+.note-full { display: none; }
+.note-toggle { color: var(--accent); font-size: 11px; cursor: pointer; white-space: nowrap; margin-left: 2px; }
+.note-toggle:hover { text-decoration: underline; }
+.note-cell.expanded .note-short { display: none; }
+.note-cell.expanded .note-full { display: inline; }
 </style>
 </head>
 <body>
@@ -353,7 +362,7 @@ tr.completed .tname { text-decoration: line-through; }
         <thead>
           <tr>
             <th>功能名称</th><th>功能模块</th><th>优先级</th><th>截止日期</th>
-            <th>测试环境</th><th>原型文档</th><th>培训</th><th>备注</th><th>状态</th><th>操作</th>
+            <th>测试环境</th><th>原型文档</th><th>培训</th><th>备注</th><th style="white-space:nowrap;min-width:80px;">状态</th><th style="white-space:nowrap;min-width:80px;">操作</th>
           </tr>
         </thead>
         <tbody id="task-tbody"></tbody>
@@ -535,7 +544,12 @@ function renderTable(){
       <td>${t.testLink?`<a class="link-a" href="${t.testLink}" target="_blank">打开↗</a>`:'—'}</td>
       <td style="font-size:11px;color:var(--text-secondary);">${t.protoLink||'—'}</td>
       <td>${t.training==='yes'?'✅':'—'}</td>
-      <td style="max-width:120px;word-break:break-all;color:var(--text-secondary);font-size:11px;">${t.note||'—'}</td>
+      <td class="note-cell" style="font-size:11px;color:var(--text-secondary);">
+        ${t.note ? `
+          <span class="note-short">${t.note.length>20?t.note.slice(0,20)+'…':t.note}</span>
+          ${t.note.length>20?`<span class="note-full">${t.note}</span><span class="note-toggle" onclick="toggleNote(this)"">展开</span>`:''}
+        ` : '—'}
+      </td>
       <td><button class="status-btn ${t.status==='done'?'status-done':'status-pending'}" onclick="toggleStatus(${t.id})">${t.status==='done'?'✓ 已完成':'○ 未完成'}</button></td>
       <td><div class="ops">
         <button class="btn btn-edit btn-sm" onclick="openEdit(${t.id})">编辑</button>
@@ -793,6 +807,12 @@ function exportCSV(){
 
 function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3000);}
 
+
+function toggleNote(el) {
+  const cell = el.closest('.note-cell');
+  const expanded = cell.classList.toggle('expanded');
+  el.textContent = expanded ? '收起' : '展开';
+}
 // Init
 updateStats();renderTable();
 loadFromCloud(false); // Pull latest cloud data on page load (silently)
