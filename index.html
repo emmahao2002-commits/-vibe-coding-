@@ -527,9 +527,25 @@ function renderTable(){
   const fs=document.getElementById('filter-status').value;
   const fm=document.getElementById('filter-module').value;
   const tod=today(),tom=tomorrow();
-  let filtered=tasks.filter(t=>{
+  // Sort: pending first (by due date asc), done last (by due date desc)
+  const sorted = [...tasks].sort((a, b) => {
+    if (a.status === b.status) {
+      return a.due < b.due ? -1 : a.due > b.due ? 1 : 0;
+    }
+    return a.status === 'pending' ? -1 : 1;
+  });
+  let filtered=sorted.filter(t=>{
     const ms=!search||t.name.toLowerCase().includes(search)||t.module.toLowerCase().includes(search);
     return ms&&(!fp||t.priority===fp)&&(!fs||t.status===fs)&&(!fm||t.module===fm);
+  });
+  // Sort: pending first (by due date asc), done last (by due date desc)
+  filtered.sort((a,b)=>{
+    if(a.status===b.status){
+      return a.status==='pending'
+        ? (a.due||'').localeCompare(b.due||'')
+        : (b.due||'').localeCompare(a.due||'');
+    }
+    return a.status==='pending'?-1:1;
   });
   const tbody=document.getElementById('task-tbody');
   const empty=document.getElementById('empty-state');
