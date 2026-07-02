@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     const tomorrowTasks = pending.filter(t => t.due === tomorrowStr);
 
 if (pending.length === 0) {
-  const doneMsg = `📋 **DocTrack 每日任务提醒！！**\n今天：${todayStr}\n \n今日任务全部完成！！\n目前没有待完成的任务\n \n小菲产能爆炸啦:P！\n记得及时补充要写的任务哦！💪\n👉 [点击进入 DocTrack](https://vibe-coding-cyan-eight.vercel.app)`;
+  const doneMsg = `📋 **DocTrack 每日任务提醒！！**\n今天：${todayStr}\n \n今日任务全部完成！！\n目前没有待完成的任务👏\n \n小菲产能爆炸啦:P！\n记得及时补充要写的任务哦！💪\n👉 [点击进入 DocTrack](https://vibe-coding-cyan-eight.vercel.app)`;
   await fetch(WEBHOOK, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -53,8 +53,8 @@ if (pending.length === 0) {
       msg += '\n';
     }
 
-    msg += `→→今日共 **${todayTasks.length}** 条未完成\n`;
-    msg += `→→全部 **${pending.length}** 条待完成\n\n`;
+    msg += `→→ 今日共 **${todayTasks.length}** 条未完成\n`;
+    msg += `→→ 全部 **${pending.length}** 条待完成\n\n`;
     msg += `要加油了小菲！💪\n\n`;
     msg += `👉 [点击进入 DocTrack](https://vibe-coding-cyan-eight.vercel.app)`;
 
