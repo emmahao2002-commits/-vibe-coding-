@@ -200,6 +200,15 @@ tr.completed .tname { text-decoration: line-through; }
 .edit-icon:hover { background: #DDE5FD; }
 .del-icon { background: var(--red-light); }
 .del-icon:hover { background: #FECACA; }
+
+/* Pagination */
+.pagination { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); }
+.pagination-info { font-size: 12px; color: var(--text-muted); }
+.pagination-btns { display: flex; align-items: center; gap: 4px; }
+.pg-btn { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text-secondary); font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all .15s; font-family: inherit; }
+.pg-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.pg-btn.active { background: var(--accent); color: white; border-color: var(--accent); font-weight: 600; }
+.pg-btn:disabled { opacity: 0.35; cursor: default; }
 </style>
 </head>
 <body>
@@ -325,7 +334,7 @@ tr.completed .tname { text-decoration: line-through; }
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ 导出 CSV</button>
     </div>
     <div class="table-toolbar">
-      <input type="text" class="search-input" placeholder="搜索任务名称/模块..." oninput="renderTable()" id="search-input">
+      <input type="text" class="search-input" placeholder="搜索任务名称/模块..." oninput="currentPage=1;renderTable()" id="search-input">
       <div class="cs-wrap filter">
         <div class="cs-display" id="cs-fp-display" onclick="csToggle('fp')">全部优先级</div>
         <span class="cs-arrow">▾</span>
@@ -379,6 +388,10 @@ tr.completed .tname { text-decoration: line-through; }
       <div class="empty-state" id="empty-state" style="display:none;">
         <div class="eicon">📭</div><p>暂无任务，从左侧表单添加第一条吧</p>
       </div>
+    </div>
+    <div class="pagination" id="pagination" style="display:none;">
+      <span class="pagination-info" id="pg-info"></span>
+      <div class="pagination-btns" id="pg-btns"></div>
     </div>
   </div>
 
@@ -458,6 +471,8 @@ tr.completed .tname { text-decoration: line-through; }
 
 <script>
 const dpState = {};
+let currentPage = 1;
+const PAGE_SIZE = 10;
 let tasks = JSON.parse(localStorage.getItem('docTasks') || '[]');
 const PM = { high:{label:'高',cls:'badge-high'}, medium:{label:'中',cls:'badge-medium'}, low:{label:'低',cls:'badge-low'} };
 
@@ -549,8 +564,41 @@ function renderTable(){
   });
   const tbody=document.getElementById('task-tbody');
   const empty=document.getElementById('empty-state');
-  if(!filtered.length){tbody.innerHTML='';empty.style.display='block';return;}
+  if(!filtered.length){
+    tbody.innerHTML='';
+    empty.style.display='block';
+    document.getElementById('pagination').style.display='none';
+    return;
+  }
   empty.style.display='none';
+
+  // Pagination
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  if(currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+  // Update pagination UI
+  const pgEl = document.getElementById('pagination');
+  const pgInfo = document.getElementById('pg-info');
+  const pgBtns = document.getElementById('pg-btns');
+  pgEl.style.display = filtered.length > PAGE_SIZE ? 'flex' : 'none';
+  pgInfo.textContent = `第 ${start+1}–${Math.min(start+PAGE_SIZE, filtered.length)} 条，共 ${filtered.length} 条`;
+
+  // Build page buttons (show max 5 page numbers)
+  let btns = `<button class="pg-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  const range = 2;
+  for(let p=1;p<=totalPages;p++){
+    if(p===1||p===totalPages||Math.abs(p-currentPage)<=range){
+      btns+=`<button class="pg-btn${p===currentPage?' active':''}" onclick="goPage(${p})">${p}</button>`;
+    } else if(Math.abs(p-currentPage)===range+1){
+      btns+=`<span style="padding:0 4px;color:var(--text-muted)">…</span>`;
+    }
+  }
+  btns+=`<button class="pg-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+  pgBtns.innerHTML = btns;
+
+  filtered = pageItems;
   tbody.innerHTML=filtered.map(t=>{
     const isOverdue=t.status==='pending'&&t.due<tod;
     const isToday=t.status==='pending'&&t.due===tod;
@@ -837,6 +885,23 @@ function toggleNote(el) {
   const cell = el.closest('.note-cell');
   const expanded = cell.classList.toggle('expanded');
   el.textContent = expanded ? '收起' : '展开';
+}
+
+function goPage(p) {
+  const totalItems = (() => {
+    const search=document.getElementById('search-input').value.toLowerCase();
+    const fp=document.getElementById('filter-priority').value;
+    const fs=document.getElementById('filter-status').value;
+    const fm=document.getElementById('filter-module').value;
+    return tasks.filter(t=>{
+      const ms=!search||t.name.toLowerCase().includes(search)||t.module.toLowerCase().includes(search);
+      return ms&&(!fp||t.priority===fp)&&(!fs||t.status===fs)&&(!fm||t.module===fm);
+    }).length;
+  })();
+  const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+  if(p < 1 || p > totalPages) return;
+  currentPage = p;
+  renderTable();
 }
 // Init
 updateStats();renderTable();
