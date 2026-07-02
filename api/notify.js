@@ -21,9 +21,15 @@ export default async function handler(req, res) {
     const todayTasks = pending.filter(t => t.due === todayStr);
     const tomorrowTasks = pending.filter(t => t.due === tomorrowStr);
 
-    if (pending.length === 0) {
-      return res.status(200).json({ message: '所有任务已完成，无需推送' });
-    }
+if (pending.length === 0) {
+  const doneMsg = `📋 **DocTrack 每日任务提醒！！**\n今天：${todayStr}\n\n今日任务全部完成！！\n目前没有待完成的任务\n\n小菲产能爆炸啦(❤ ω ❤)！\n\n记得及时补充要写的任务哦！💪\n\n👉 [点击进入 DocTrack](https://vibe-coding-cyan-eight.vercel.app)`;
+  await fetch(WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ msgtype: 'markdown', markdown: { content: doneMsg } })
+  });
+  return res.status(200).json({ message: '所有任务已完成，已推送鼓励消息' });
+}
 
     // priority now stored as 'high'/'medium'/'low'
     const priLabel = p => p === 'high' ? '🔴高' : p === 'medium' ? '🟠中' : '🟢低';
